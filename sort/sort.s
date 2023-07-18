@@ -6,7 +6,7 @@
     .lcomm output, 8
 
 .section .rodata
-    error_read_message: .string "Nao foi possivel abrir o arquivo de input\n"
+    error_read_message: .string "Can't open input file\n"
     unsigned_int_fmt:   .string "%u\n"
     signed_int_fmt:     .string "%d\n"
     index_fmt:          .string "[%u] "
