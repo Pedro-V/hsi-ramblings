@@ -31,6 +31,7 @@ void read_matrix (float ***matrix, uint32_t n, uint32_t m) {
 
 
 void multiply_line (void *p) {
+
 }
 
 void multiply_matrix (uint32_t n, uint32_t m, uint32_t p) {
@@ -38,23 +39,13 @@ void multiply_matrix (uint32_t n, uint32_t m, uint32_t p) {
 }
 
 
-void init_pthread_arrays (pthread_t **threads, uint32_t **parameters, uint32_t n) {
-    *threads = malloc(sizeof(**threads) * n);
-    *parameters = malloc(sizeof(**parameters) * n);
-}
-
-void free_pthread_arrays (pthread_t **threads, uint32_t **parameters) {
-    free(*threads);
-    free(*parameters);
-}
-
 int main (int argc, char *argv[]) {
-    input = fopen(argv[1], "w");
+    input = fopen(argv[1], "r");
     if (!input) {
         fprintf(stdout, "Can't open input file\n");
         exit(EXIT_FAILURE);
     }
-    output = fopen(argv[2], "r");
+    output = fopen(argv[2], "w");
     pthread_t *threads;
     uint32_t *parameters;
     uint32_t num_products, n, m, p;
