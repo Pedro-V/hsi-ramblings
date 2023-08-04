@@ -1,0 +1,2100 @@
+01 c0                   add    eax,eax
+01 c1                   add    ecx,eax
+01 c2                   add    edx,eax
+01 c3                   add    ebx,eax
+01 c4                   add    esp,eax
+01 c5                   add    ebp,eax
+01 c6                   add    esi,eax
+01 c7                   add    edi,eax
+01 c8                   add    eax,ecx
+01 c9                   add    ecx,ecx
+01 ca                   add    edx,ecx
+01 cb                   add    ebx,ecx
+01 cc                   add    esp,ecx
+01 cd                   add    ebp,ecx
+01 ce                   add    esi,ecx
+01 cf                   add    edi,ecx
+01 d0                   add    eax,edx
+01 d1                   add    ecx,edx
+01 d2                   add    edx,edx
+01 d3                   add    ebx,edx
+01 d4                   add    esp,edx
+01 d5                   add    ebp,edx
+01 d6                   add    esi,edx
+01 d7                   add    edi,edx
+01 d8                   add    eax,ebx
+01 d9                   add    ecx,ebx
+01 da                   add    edx,ebx
+01 db                   add    ebx,ebx
+01 dc                   add    esp,ebx
+01 dd                   add    ebp,ebx
+01 de                   add    esi,ebx
+01 df                   add    edi,ebx
+01 e0                   add    eax,esp
+01 e1                   add    ecx,esp
+01 e2                   add    edx,esp
+01 e3                   add    ebx,esp
+01 e4                   add    esp,esp
+01 e5                   add    ebp,esp
+01 e6                   add    esi,esp
+01 e7                   add    edi,esp
+01 e8                   add    eax,ebp
+01 e9                   add    ecx,ebp
+01 ea                   add    edx,ebp
+01 eb                   add    ebx,ebp
+01 ec                   add    esp,ebp
+01 ed                   add    ebp,ebp
+01 ee                   add    esi,ebp
+01 ef                   add    edi,ebp
+01 f0                   add    eax,esi
+01 f1                   add    ecx,esi
+01 f2                   add    edx,esi
+01 f3                   add    ebx,esi
+01 f4                   add    esp,esi
+01 f5                   add    ebp,esi
+01 f6                   add    esi,esi
+01 f7                   add    edi,esi
+01 f8                   add    eax,edi
+01 f9                   add    ecx,edi
+01 fa                   add    edx,edi
+01 fb                   add    ebx,edi
+01 fc                   add    esp,edi
+01 fd                   add    ebp,edi
+01 fe                   add    esi,edi
+01 ff                   add    edi,edi
+09 c0                   or     eax,eax
+09 c1                   or     ecx,eax
+09 c2                   or     edx,eax
+09 c3                   or     ebx,eax
+09 c4                   or     esp,eax
+09 c5                   or     ebp,eax
+09 c6                   or     esi,eax
+09 c7                   or     edi,eax
+09 c8                   or     eax,ecx
+09 c9                   or     ecx,ecx
+09 ca                   or     edx,ecx
+09 cb                   or     ebx,ecx
+09 cc                   or     esp,ecx
+09 cd                   or     ebp,ecx
+09 ce                   or     esi,ecx
+09 cf                   or     edi,ecx
+09 d0                   or     eax,edx
+09 d1                   or     ecx,edx
+09 d2                   or     edx,edx
+09 d3                   or     ebx,edx
+09 d4                   or     esp,edx
+09 d5                   or     ebp,edx
+09 d6                   or     esi,edx
+09 d7                   or     edi,edx
+09 d8                   or     eax,ebx
+09 d9                   or     ecx,ebx
+09 da                   or     edx,ebx
+09 db                   or     ebx,ebx
+09 dc                   or     esp,ebx
+09 dd                   or     ebp,ebx
+09 de                   or     esi,ebx
+09 df                   or     edi,ebx
+09 e0                   or     eax,esp
+09 e1                   or     ecx,esp
+09 e2                   or     edx,esp
+09 e3                   or     ebx,esp
+09 e4                   or     esp,esp
+09 e5                   or     ebp,esp
+09 e6                   or     esi,esp
+09 e7                   or     edi,esp
+09 e8                   or     eax,ebp
+09 e9                   or     ecx,ebp
+09 ea                   or     edx,ebp
+09 eb                   or     ebx,ebp
+09 ec                   or     esp,ebp
+09 ed                   or     ebp,ebp
+09 ee                   or     esi,ebp
+09 ef                   or     edi,ebp
+09 f0                   or     eax,esi
+09 f1                   or     ecx,esi
+09 f2                   or     edx,esi
+09 f3                   or     ebx,esi
+09 f4                   or     esp,esi
+09 f5                   or     ebp,esi
+09 f6                   or     esi,esi
+09 f7                   or     edi,esi
+09 f8                   or     eax,edi
+09 f9                   or     ecx,edi
+09 fa                   or     edx,edi
+09 fb                   or     ebx,edi
+09 fc                   or     esp,edi
+09 fd                   or     ebp,edi
+09 fe                   or     esi,edi
+09 ff                   or     edi,edi
+0f 84 00 00 00 00       je     0x106
+0f 8c 00 00 00 00       jl     0x10c
+0f 8f 00 00 00 00       jg     0x112
+21 c0                   and    eax,eax
+21 c1                   and    ecx,eax
+21 c2                   and    edx,eax
+21 c3                   and    ebx,eax
+21 c4                   and    esp,eax
+21 c5                   and    ebp,eax
+21 c6                   and    esi,eax
+21 c7                   and    edi,eax
+21 c8                   and    eax,ecx
+21 c9                   and    ecx,ecx
+21 ca                   and    edx,ecx
+21 cb                   and    ebx,ecx
+21 cc                   and    esp,ecx
+21 cd                   and    ebp,ecx
+21 ce                   and    esi,ecx
+21 cf                   and    edi,ecx
+21 d0                   and    eax,edx
+21 d1                   and    ecx,edx
+21 d2                   and    edx,edx
+21 d3                   and    ebx,edx
+21 d4                   and    esp,edx
+21 d5                   and    ebp,edx
+21 d6                   and    esi,edx
+21 d7                   and    edi,edx
+21 d8                   and    eax,ebx
+21 d9                   and    ecx,ebx
+21 da                   and    edx,ebx
+21 db                   and    ebx,ebx
+21 dc                   and    esp,ebx
+21 dd                   and    ebp,ebx
+21 de                   and    esi,ebx
+21 df                   and    edi,ebx
+21 e0                   and    eax,esp
+21 e1                   and    ecx,esp
+21 e2                   and    edx,esp
+21 e3                   and    ebx,esp
+21 e4                   and    esp,esp
+21 e5                   and    ebp,esp
+21 e6                   and    esi,esp
+21 e7                   and    edi,esp
+21 e8                   and    eax,ebp
+21 e9                   and    ecx,ebp
+21 ea                   and    edx,ebp
+21 eb                   and    ebx,ebp
+21 ec                   and    esp,ebp
+21 ed                   and    ebp,ebp
+21 ee                   and    esi,ebp
+21 ef                   and    edi,ebp
+21 f0                   and    eax,esi
+21 f1                   and    ecx,esi
+21 f2                   and    edx,esi
+21 f3                   and    ebx,esi
+21 f4                   and    esp,esi
+21 f5                   and    ebp,esi
+21 f6                   and    esi,esi
+21 f7                   and    edi,esi
+21 f8                   and    eax,edi
+21 f9                   and    ecx,edi
+21 fa                   and    edx,edi
+21 fb                   and    ebx,edi
+21 fc                   and    esp,edi
+21 fd                   and    ebp,edi
+21 fe                   and    esi,edi
+21 ff                   and    edi,edi
+29 c0                   sub    eax,eax
+29 c1                   sub    ecx,eax
+29 c2                   sub    edx,eax
+29 c3                   sub    ebx,eax
+29 c4                   sub    esp,eax
+29 c5                   sub    ebp,eax
+29 c6                   sub    esi,eax
+29 c7                   sub    edi,eax
+29 c8                   sub    eax,ecx
+29 c9                   sub    ecx,ecx
+29 ca                   sub    edx,ecx
+29 cb                   sub    ebx,ecx
+29 cc                   sub    esp,ecx
+29 cd                   sub    ebp,ecx
+29 ce                   sub    esi,ecx
+29 cf                   sub    edi,ecx
+29 d0                   sub    eax,edx
+29 d1                   sub    ecx,edx
+29 d2                   sub    edx,edx
+29 d3                   sub    ebx,edx
+29 d4                   sub    esp,edx
+29 d5                   sub    ebp,edx
+29 d6                   sub    esi,edx
+29 d7                   sub    edi,edx
+29 d8                   sub    eax,ebx
+29 d9                   sub    ecx,ebx
+29 da                   sub    edx,ebx
+29 db                   sub    ebx,ebx
+29 dc                   sub    esp,ebx
+29 dd                   sub    ebp,ebx
+29 de                   sub    esi,ebx
+29 df                   sub    edi,ebx
+29 e0                   sub    eax,esp
+29 e1                   sub    ecx,esp
+29 e2                   sub    edx,esp
+29 e3                   sub    ebx,esp
+29 e4                   sub    esp,esp
+29 e5                   sub    ebp,esp
+29 e6                   sub    esi,esp
+29 e7                   sub    edi,esp
+29 e8                   sub    eax,ebp
+29 e9                   sub    ecx,ebp
+29 ea                   sub    edx,ebp
+29 eb                   sub    ebx,ebp
+29 ec                   sub    esp,ebp
+29 ed                   sub    ebp,ebp
+29 ee                   sub    esi,ebp
+29 ef                   sub    edi,ebp
+29 f0                   sub    eax,esi
+29 f1                   sub    ecx,esi
+29 f2                   sub    edx,esi
+29 f3                   sub    ebx,esi
+29 f4                   sub    esp,esi
+29 f5                   sub    ebp,esi
+29 f6                   sub    esi,esi
+29 f7                   sub    edi,esi
+29 f8                   sub    eax,edi
+29 f9                   sub    ecx,edi
+29 fa                   sub    edx,edi
+29 fb                   sub    ebx,edi
+29 fc                   sub    esp,edi
+29 fd                   sub    ebp,edi
+29 fe                   sub    esi,edi
+29 ff                   sub    edi,edi
+31 c0                   xor    eax,eax
+31 c1                   xor    ecx,eax
+31 c2                   xor    edx,eax
+31 c3                   xor    ebx,eax
+31 c4                   xor    esp,eax
+31 c5                   xor    ebp,eax
+31 c6                   xor    esi,eax
+31 c7                   xor    edi,eax
+31 c8                   xor    eax,ecx
+31 c9                   xor    ecx,ecx
+31 ca                   xor    edx,ecx
+31 cb                   xor    ebx,ecx
+31 cc                   xor    esp,ecx
+31 cd                   xor    ebp,ecx
+31 ce                   xor    esi,ecx
+31 cf                   xor    edi,ecx
+31 d0                   xor    eax,edx
+31 d1                   xor    ecx,edx
+31 d2                   xor    edx,edx
+31 d3                   xor    ebx,edx
+31 d4                   xor    esp,edx
+31 d5                   xor    ebp,edx
+31 d6                   xor    esi,edx
+31 d7                   xor    edi,edx
+31 d8                   xor    eax,ebx
+31 d9                   xor    ecx,ebx
+31 da                   xor    edx,ebx
+31 db                   xor    ebx,ebx
+31 dc                   xor    esp,ebx
+31 dd                   xor    ebp,ebx
+31 de                   xor    esi,ebx
+31 df                   xor    edi,ebx
+31 e0                   xor    eax,esp
+31 e1                   xor    ecx,esp
+31 e2                   xor    edx,esp
+31 e3                   xor    ebx,esp
+31 e4                   xor    esp,esp
+31 e5                   xor    ebp,esp
+31 e6                   xor    esi,esp
+31 e7                   xor    edi,esp
+31 e8                   xor    eax,ebp
+31 e9                   xor    ecx,ebp
+31 ea                   xor    edx,ebp
+31 eb                   xor    ebx,ebp
+31 ec                   xor    esp,ebp
+31 ed                   xor    ebp,ebp
+31 ee                   xor    esi,ebp
+31 ef                   xor    edi,ebp
+31 f0                   xor    eax,esi
+31 f1                   xor    ecx,esi
+31 f2                   xor    edx,esi
+31 f3                   xor    ebx,esi
+31 f4                   xor    esp,esi
+31 f5                   xor    ebp,esi
+31 f6                   xor    esi,esi
+31 f7                   xor    edi,esi
+31 f8                   xor    eax,edi
+31 f9                   xor    ecx,edi
+31 fa                   xor    edx,edi
+31 fb                   xor    ebx,edi
+31 fc                   xor    esp,edi
+31 fd                   xor    ebp,edi
+31 fe                   xor    esi,edi
+31 ff                   xor    edi,edi
+41 01 c0                add    r8d,eax
+41 01 c1                add    r9d,eax
+41 01 c2                add    r10d,eax
+41 01 c3                add    r11d,eax
+41 01 c4                add    r12d,eax
+41 01 c5                add    r13d,eax
+41 01 c6                add    r14d,eax
+41 01 c7                add    r15d,eax
+41 01 c8                add    r8d,ecx
+41 01 c9                add    r9d,ecx
+41 01 ca                add    r10d,ecx
+41 01 cb                add    r11d,ecx
+41 01 cc                add    r12d,ecx
+41 01 cd                add    r13d,ecx
+41 01 ce                add    r14d,ecx
+41 01 cf                add    r15d,ecx
+41 01 d0                add    r8d,edx
+41 01 d1                add    r9d,edx
+41 01 d2                add    r10d,edx
+41 01 d3                add    r11d,edx
+41 01 d4                add    r12d,edx
+41 01 d5                add    r13d,edx
+41 01 d6                add    r14d,edx
+41 01 d7                add    r15d,edx
+41 01 d8                add    r8d,ebx
+41 01 d9                add    r9d,ebx
+41 01 da                add    r10d,ebx
+41 01 db                add    r11d,ebx
+41 01 dc                add    r12d,ebx
+41 01 dd                add    r13d,ebx
+41 01 de                add    r14d,ebx
+41 01 df                add    r15d,ebx
+41 01 e0                add    r8d,esp
+41 01 e1                add    r9d,esp
+41 01 e2                add    r10d,esp
+41 01 e3                add    r11d,esp
+41 01 e4                add    r12d,esp
+41 01 e5                add    r13d,esp
+41 01 e6                add    r14d,esp
+41 01 e7                add    r15d,esp
+41 01 e8                add    r8d,ebp
+41 01 e9                add    r9d,ebp
+41 01 ea                add    r10d,ebp
+41 01 eb                add    r11d,ebp
+41 01 ec                add    r12d,ebp
+41 01 ed                add    r13d,ebp
+41 01 ee                add    r14d,ebp
+41 01 ef                add    r15d,ebp
+41 01 f0                add    r8d,esi
+41 01 f1                add    r9d,esi
+41 01 f2                add    r10d,esi
+41 01 f3                add    r11d,esi
+41 01 f4                add    r12d,esi
+41 01 f5                add    r13d,esi
+41 01 f6                add    r14d,esi
+41 01 f7                add    r15d,esi
+41 01 f8                add    r8d,edi
+41 01 f9                add    r9d,edi
+41 01 fa                add    r10d,edi
+41 01 fb                add    r11d,edi
+41 01 fc                add    r12d,edi
+41 01 fd                add    r13d,edi
+41 01 fe                add    r14d,edi
+41 01 ff                add    r15d,edi
+41 09 c0                or     r8d,eax
+41 09 c1                or     r9d,eax
+41 09 c2                or     r10d,eax
+41 09 c3                or     r11d,eax
+41 09 c4                or     r12d,eax
+41 09 c5                or     r13d,eax
+41 09 c6                or     r14d,eax
+41 09 c7                or     r15d,eax
+41 09 c8                or     r8d,ecx
+41 09 c9                or     r9d,ecx
+41 09 ca                or     r10d,ecx
+41 09 cb                or     r11d,ecx
+41 09 cc                or     r12d,ecx
+41 09 cd                or     r13d,ecx
+41 09 ce                or     r14d,ecx
+41 09 cf                or     r15d,ecx
+41 09 d0                or     r8d,edx
+41 09 d1                or     r9d,edx
+41 09 d2                or     r10d,edx
+41 09 d3                or     r11d,edx
+41 09 d4                or     r12d,edx
+41 09 d5                or     r13d,edx
+41 09 d6                or     r14d,edx
+41 09 d7                or     r15d,edx
+41 09 d8                or     r8d,ebx
+41 09 d9                or     r9d,ebx
+41 09 da                or     r10d,ebx
+41 09 db                or     r11d,ebx
+41 09 dc                or     r12d,ebx
+41 09 dd                or     r13d,ebx
+41 09 de                or     r14d,ebx
+41 09 df                or     r15d,ebx
+41 09 e0                or     r8d,esp
+41 09 e1                or     r9d,esp
+41 09 e2                or     r10d,esp
+41 09 e3                or     r11d,esp
+41 09 e4                or     r12d,esp
+41 09 e5                or     r13d,esp
+41 09 e6                or     r14d,esp
+41 09 e7                or     r15d,esp
+41 09 e8                or     r8d,ebp
+41 09 e9                or     r9d,ebp
+41 09 ea                or     r10d,ebp
+41 09 eb                or     r11d,ebp
+41 09 ec                or     r12d,ebp
+41 09 ed                or     r13d,ebp
+41 09 ee                or     r14d,ebp
+41 09 ef                or     r15d,ebp
+41 09 f0                or     r8d,esi
+41 09 f1                or     r9d,esi
+41 09 f2                or     r10d,esi
+41 09 f3                or     r11d,esi
+41 09 f4                or     r12d,esi
+41 09 f5                or     r13d,esi
+41 09 f6                or     r14d,esi
+41 09 f7                or     r15d,esi
+41 09 f8                or     r8d,edi
+41 09 f9                or     r9d,edi
+41 09 fa                or     r10d,edi
+41 09 fb                or     r11d,edi
+41 09 fc                or     r12d,edi
+41 09 fd                or     r13d,edi
+41 09 fe                or     r14d,edi
+41 09 ff                or     r15d,edi
+41 21 c0                and    r8d,eax
+41 21 c1                and    r9d,eax
+41 21 c2                and    r10d,eax
+41 21 c3                and    r11d,eax
+41 21 c4                and    r12d,eax
+41 21 c5                and    r13d,eax
+41 21 c6                and    r14d,eax
+41 21 c7                and    r15d,eax
+41 21 c8                and    r8d,ecx
+41 21 c9                and    r9d,ecx
+41 21 ca                and    r10d,ecx
+41 21 cb                and    r11d,ecx
+41 21 cc                and    r12d,ecx
+41 21 cd                and    r13d,ecx
+41 21 ce                and    r14d,ecx
+41 21 cf                and    r15d,ecx
+41 21 d0                and    r8d,edx
+41 21 d1                and    r9d,edx
+41 21 d2                and    r10d,edx
+41 21 d3                and    r11d,edx
+41 21 d4                and    r12d,edx
+41 21 d5                and    r13d,edx
+41 21 d6                and    r14d,edx
+41 21 d7                and    r15d,edx
+41 21 d8                and    r8d,ebx
+41 21 d9                and    r9d,ebx
+41 21 da                and    r10d,ebx
+41 21 db                and    r11d,ebx
+41 21 dc                and    r12d,ebx
+41 21 dd                and    r13d,ebx
+41 21 de                and    r14d,ebx
+41 21 df                and    r15d,ebx
+41 21 e0                and    r8d,esp
+41 21 e1                and    r9d,esp
+41 21 e2                and    r10d,esp
+41 21 e3                and    r11d,esp
+41 21 e4                and    r12d,esp
+41 21 e5                and    r13d,esp
+41 21 e6                and    r14d,esp
+41 21 e7                and    r15d,esp
+41 21 e8                and    r8d,ebp
+41 21 e9                and    r9d,ebp
+41 21 ea                and    r10d,ebp
+41 21 eb                and    r11d,ebp
+41 21 ec                and    r12d,ebp
+41 21 ed                and    r13d,ebp
+41 21 ee                and    r14d,ebp
+41 21 ef                and    r15d,ebp
+41 21 f0                and    r8d,esi
+41 21 f1                and    r9d,esi
+41 21 f2                and    r10d,esi
+41 21 f3                and    r11d,esi
+41 21 f4                and    r12d,esi
+41 21 f5                and    r13d,esi
+41 21 f6                and    r14d,esi
+41 21 f7                and    r15d,esi
+41 21 f8                and    r8d,edi
+41 21 f9                and    r9d,edi
+41 21 fa                and    r10d,edi
+41 21 fb                and    r11d,edi
+41 21 fc                and    r12d,edi
+41 21 fd                and    r13d,edi
+41 21 fe                and    r14d,edi
+41 21 ff                and    r15d,edi
+41 29 c0                sub    r8d,eax
+41 29 c1                sub    r9d,eax
+41 29 c2                sub    r10d,eax
+41 29 c3                sub    r11d,eax
+41 29 c4                sub    r12d,eax
+41 29 c5                sub    r13d,eax
+41 29 c6                sub    r14d,eax
+41 29 c7                sub    r15d,eax
+41 29 c8                sub    r8d,ecx
+41 29 c9                sub    r9d,ecx
+41 29 ca                sub    r10d,ecx
+41 29 cb                sub    r11d,ecx
+41 29 cc                sub    r12d,ecx
+41 29 cd                sub    r13d,ecx
+41 29 ce                sub    r14d,ecx
+41 29 cf                sub    r15d,ecx
+41 29 d0                sub    r8d,edx
+41 29 d1                sub    r9d,edx
+41 29 d2                sub    r10d,edx
+41 29 d3                sub    r11d,edx
+41 29 d4                sub    r12d,edx
+41 29 d5                sub    r13d,edx
+41 29 d6                sub    r14d,edx
+41 29 d7                sub    r15d,edx
+41 29 d8                sub    r8d,ebx
+41 29 d9                sub    r9d,ebx
+41 29 da                sub    r10d,ebx
+41 29 db                sub    r11d,ebx
+41 29 dc                sub    r12d,ebx
+41 29 dd                sub    r13d,ebx
+41 29 de                sub    r14d,ebx
+41 29 df                sub    r15d,ebx
+41 29 e0                sub    r8d,esp
+41 29 e1                sub    r9d,esp
+41 29 e2                sub    r10d,esp
+41 29 e3                sub    r11d,esp
+41 29 e4                sub    r12d,esp
+41 29 e5                sub    r13d,esp
+41 29 e6                sub    r14d,esp
+41 29 e7                sub    r15d,esp
+41 29 e8                sub    r8d,ebp
+41 29 e9                sub    r9d,ebp
+41 29 ea                sub    r10d,ebp
+41 29 eb                sub    r11d,ebp
+41 29 ec                sub    r12d,ebp
+41 29 ed                sub    r13d,ebp
+41 29 ee                sub    r14d,ebp
+41 29 ef                sub    r15d,ebp
+41 29 f0                sub    r8d,esi
+41 29 f1                sub    r9d,esi
+41 29 f2                sub    r10d,esi
+41 29 f3                sub    r11d,esi
+41 29 f4                sub    r12d,esi
+41 29 f5                sub    r13d,esi
+41 29 f6                sub    r14d,esi
+41 29 f7                sub    r15d,esi
+41 29 f8                sub    r8d,edi
+41 29 f9                sub    r9d,edi
+41 29 fa                sub    r10d,edi
+41 29 fb                sub    r11d,edi
+41 29 fc                sub    r12d,edi
+41 29 fd                sub    r13d,edi
+41 29 fe                sub    r14d,edi
+41 29 ff                sub    r15d,edi
+41 31 c0                xor    r8d,eax
+41 31 c1                xor    r9d,eax
+41 31 c2                xor    r10d,eax
+41 31 c3                xor    r11d,eax
+41 31 c4                xor    r12d,eax
+41 31 c5                xor    r13d,eax
+41 31 c6                xor    r14d,eax
+41 31 c7                xor    r15d,eax
+41 31 c8                xor    r8d,ecx
+41 31 c9                xor    r9d,ecx
+41 31 ca                xor    r10d,ecx
+41 31 cb                xor    r11d,ecx
+41 31 cc                xor    r12d,ecx
+41 31 cd                xor    r13d,ecx
+41 31 ce                xor    r14d,ecx
+41 31 cf                xor    r15d,ecx
+41 31 d0                xor    r8d,edx
+41 31 d1                xor    r9d,edx
+41 31 d2                xor    r10d,edx
+41 31 d3                xor    r11d,edx
+41 31 d4                xor    r12d,edx
+41 31 d5                xor    r13d,edx
+41 31 d6                xor    r14d,edx
+41 31 d7                xor    r15d,edx
+41 31 d8                xor    r8d,ebx
+41 31 d9                xor    r9d,ebx
+41 31 da                xor    r10d,ebx
+41 31 db                xor    r11d,ebx
+41 31 dc                xor    r12d,ebx
+41 31 dd                xor    r13d,ebx
+41 31 de                xor    r14d,ebx
+41 31 df                xor    r15d,ebx
+41 31 e0                xor    r8d,esp
+41 31 e1                xor    r9d,esp
+41 31 e2                xor    r10d,esp
+41 31 e3                xor    r11d,esp
+41 31 e4                xor    r12d,esp
+41 31 e5                xor    r13d,esp
+41 31 e6                xor    r14d,esp
+41 31 e7                xor    r15d,esp
+41 31 e8                xor    r8d,ebp
+41 31 e9                xor    r9d,ebp
+41 31 ea                xor    r10d,ebp
+41 31 eb                xor    r11d,ebp
+41 31 ec                xor    r12d,ebp
+41 31 ed                xor    r13d,ebp
+41 31 ee                xor    r14d,ebp
+41 31 ef                xor    r15d,ebp
+41 31 f0                xor    r8d,esi
+41 31 f1                xor    r9d,esi
+41 31 f2                xor    r10d,esi
+41 31 f3                xor    r11d,esi
+41 31 f4                xor    r12d,esi
+41 31 f5                xor    r13d,esi
+41 31 f6                xor    r14d,esi
+41 31 f7                xor    r15d,esi
+41 31 f8                xor    r8d,edi
+41 31 f9                xor    r9d,edi
+41 31 fa                xor    r10d,edi
+41 31 fb                xor    r11d,edi
+41 31 fc                xor    r12d,edi
+41 31 fd                xor    r13d,edi
+41 31 fe                xor    r14d,edi
+41 31 ff                xor    r15d,edi
+41 89 c0                mov    r8d,eax
+41 89 c1                mov    r9d,eax
+41 89 c2                mov    r10d,eax
+41 89 c3                mov    r11d,eax
+41 89 c4                mov    r12d,eax
+41 89 c5                mov    r13d,eax
+41 89 c6                mov    r14d,eax
+41 89 c7                mov    r15d,eax
+41 89 c8                mov    r8d,ecx
+41 89 c9                mov    r9d,ecx
+41 89 ca                mov    r10d,ecx
+41 89 cb                mov    r11d,ecx
+41 89 cc                mov    r12d,ecx
+41 89 cd                mov    r13d,ecx
+41 89 ce                mov    r14d,ecx
+41 89 cf                mov    r15d,ecx
+41 89 d0                mov    r8d,edx
+41 89 d1                mov    r9d,edx
+41 89 d2                mov    r10d,edx
+41 89 d3                mov    r11d,edx
+41 89 d4                mov    r12d,edx
+41 89 d5                mov    r13d,edx
+41 89 d6                mov    r14d,edx
+41 89 d7                mov    r15d,edx
+41 89 d8                mov    r8d,ebx
+41 89 d9                mov    r9d,ebx
+41 89 da                mov    r10d,ebx
+41 89 db                mov    r11d,ebx
+41 89 dc                mov    r12d,ebx
+41 89 dd                mov    r13d,ebx
+41 89 de                mov    r14d,ebx
+41 89 df                mov    r15d,ebx
+41 89 e0                mov    r8d,esp
+41 89 e1                mov    r9d,esp
+41 89 e2                mov    r10d,esp
+41 89 e3                mov    r11d,esp
+41 89 e4                mov    r12d,esp
+41 89 e5                mov    r13d,esp
+41 89 e6                mov    r14d,esp
+41 89 e7                mov    r15d,esp
+41 89 e8                mov    r8d,ebp
+41 89 e9                mov    r9d,ebp
+41 89 ea                mov    r10d,ebp
+41 89 eb                mov    r11d,ebp
+41 89 ec                mov    r12d,ebp
+41 89 ed                mov    r13d,ebp
+41 89 ee                mov    r14d,ebp
+41 89 ef                mov    r15d,ebp
+41 89 f0                mov    r8d,esi
+41 89 f1                mov    r9d,esi
+41 89 f2                mov    r10d,esi
+41 89 f3                mov    r11d,esi
+41 89 f4                mov    r12d,esi
+41 89 f5                mov    r13d,esi
+41 89 f6                mov    r14d,esi
+41 89 f7                mov    r15d,esi
+41 89 f8                mov    r8d,edi
+41 89 f9                mov    r9d,edi
+41 89 fa                mov    r10d,edi
+41 89 fb                mov    r11d,edi
+41 89 fc                mov    r12d,edi
+41 89 fd                mov    r13d,edi
+41 89 fe                mov    r14d,edi
+41 89 ff                mov    r15d,edi
+41 b8 0a 00 00 00       mov    r8d,0xa
+41 b9 0a 00 00 00       mov    r9d,0xa
+41 ba 0a 00 00 00       mov    r10d,0xa
+41 bb 0a 00 00 00       mov    r11d,0xa
+41 bc 0a 00 00 00       mov    r12d,0xa
+41 bd 0a 00 00 00       mov    r13d,0xa
+41 be 0a 00 00 00       mov    r14d,0xa
+41 bf 0a 00 00 00       mov    r15d,0xa
+41 c1 e0 0a             shl    r8d,0xa
+41 c1 e1 0a             shl    r9d,0xa
+41 c1 e2 0a             shl    r10d,0xa
+41 c1 e3 0a             shl    r11d,0xa
+41 c1 e4 0a             shl    r12d,0xa
+41 c1 e5 0a             shl    r13d,0xa
+41 c1 e6 0a             shl    r14d,0xa
+41 c1 e7 0a             shl    r15d,0xa
+41 c1 e8 0a             shr    r8d,0xa
+41 c1 e9 0a             shr    r9d,0xa
+41 c1 ea 0a             shr    r10d,0xa
+41 c1 eb 0a             shr    r11d,0xa
+41 c1 ec 0a             shr    r12d,0xa
+41 c1 ed 0a             shr    r13d,0xa
+41 c1 ee 0a             shr    r14d,0xa
+41 c1 ef 0a             shr    r15d,0xa
+44 01 c0                add    eax,r8d
+44 01 c1                add    ecx,r8d
+44 01 c2                add    edx,r8d
+44 01 c3                add    ebx,r8d
+44 01 c4                add    esp,r8d
+44 01 c5                add    ebp,r8d
+44 01 c6                add    esi,r8d
+44 01 c7                add    edi,r8d
+44 01 c8                add    eax,r9d
+44 01 c9                add    ecx,r9d
+44 01 ca                add    edx,r9d
+44 01 cb                add    ebx,r9d
+44 01 cc                add    esp,r9d
+44 01 cd                add    ebp,r9d
+44 01 ce                add    esi,r9d
+44 01 cf                add    edi,r9d
+44 01 d0                add    eax,r10d
+44 01 d1                add    ecx,r10d
+44 01 d2                add    edx,r10d
+44 01 d3                add    ebx,r10d
+44 01 d4                add    esp,r10d
+44 01 d5                add    ebp,r10d
+44 01 d6                add    esi,r10d
+44 01 d7                add    edi,r10d
+44 01 d8                add    eax,r11d
+44 01 d9                add    ecx,r11d
+44 01 da                add    edx,r11d
+44 01 db                add    ebx,r11d
+44 01 dc                add    esp,r11d
+44 01 dd                add    ebp,r11d
+44 01 de                add    esi,r11d
+44 01 df                add    edi,r11d
+44 01 e0                add    eax,r12d
+44 01 e1                add    ecx,r12d
+44 01 e2                add    edx,r12d
+44 01 e3                add    ebx,r12d
+44 01 e4                add    esp,r12d
+44 01 e5                add    ebp,r12d
+44 01 e6                add    esi,r12d
+44 01 e7                add    edi,r12d
+44 01 e8                add    eax,r13d
+44 01 e9                add    ecx,r13d
+44 01 ea                add    edx,r13d
+44 01 eb                add    ebx,r13d
+44 01 ec                add    esp,r13d
+44 01 ed                add    ebp,r13d
+44 01 ee                add    esi,r13d
+44 01 ef                add    edi,r13d
+44 01 f0                add    eax,r14d
+44 01 f1                add    ecx,r14d
+44 01 f2                add    edx,r14d
+44 01 f3                add    ebx,r14d
+44 01 f4                add    esp,r14d
+44 01 f5                add    ebp,r14d
+44 01 f6                add    esi,r14d
+44 01 f7                add    edi,r14d
+44 01 f8                add    eax,r15d
+44 01 f9                add    ecx,r15d
+44 01 fa                add    edx,r15d
+44 01 fb                add    ebx,r15d
+44 01 fc                add    esp,r15d
+44 01 fd                add    ebp,r15d
+44 01 fe                add    esi,r15d
+44 01 ff                add    edi,r15d
+44 09 c0                or     eax,r8d
+44 09 c1                or     ecx,r8d
+44 09 c2                or     edx,r8d
+44 09 c3                or     ebx,r8d
+44 09 c4                or     esp,r8d
+44 09 c5                or     ebp,r8d
+44 09 c6                or     esi,r8d
+44 09 c7                or     edi,r8d
+44 09 c8                or     eax,r9d
+44 09 c9                or     ecx,r9d
+44 09 ca                or     edx,r9d
+44 09 cb                or     ebx,r9d
+44 09 cc                or     esp,r9d
+44 09 cd                or     ebp,r9d
+44 09 ce                or     esi,r9d
+44 09 cf                or     edi,r9d
+44 09 d0                or     eax,r10d
+44 09 d1                or     ecx,r10d
+44 09 d2                or     edx,r10d
+44 09 d3                or     ebx,r10d
+44 09 d4                or     esp,r10d
+44 09 d5                or     ebp,r10d
+44 09 d6                or     esi,r10d
+44 09 d7                or     edi,r10d
+44 09 d8                or     eax,r11d
+44 09 d9                or     ecx,r11d
+44 09 da                or     edx,r11d
+44 09 db                or     ebx,r11d
+44 09 dc                or     esp,r11d
+44 09 dd                or     ebp,r11d
+44 09 de                or     esi,r11d
+44 09 df                or     edi,r11d
+44 09 e0                or     eax,r12d
+44 09 e1                or     ecx,r12d
+44 09 e2                or     edx,r12d
+44 09 e3                or     ebx,r12d
+44 09 e4                or     esp,r12d
+44 09 e5                or     ebp,r12d
+44 09 e6                or     esi,r12d
+44 09 e7                or     edi,r12d
+44 09 e8                or     eax,r13d
+44 09 e9                or     ecx,r13d
+44 09 ea                or     edx,r13d
+44 09 eb                or     ebx,r13d
+44 09 ec                or     esp,r13d
+44 09 ed                or     ebp,r13d
+44 09 ee                or     esi,r13d
+44 09 ef                or     edi,r13d
+44 09 f0                or     eax,r14d
+44 09 f1                or     ecx,r14d
+44 09 f2                or     edx,r14d
+44 09 f3                or     ebx,r14d
+44 09 f4                or     esp,r14d
+44 09 f5                or     ebp,r14d
+44 09 f6                or     esi,r14d
+44 09 f7                or     edi,r14d
+44 09 f8                or     eax,r15d
+44 09 f9                or     ecx,r15d
+44 09 fa                or     edx,r15d
+44 09 fb                or     ebx,r15d
+44 09 fc                or     esp,r15d
+44 09 fd                or     ebp,r15d
+44 09 fe                or     esi,r15d
+44 09 ff                or     edi,r15d
+44 21 c0                and    eax,r8d
+44 21 c1                and    ecx,r8d
+44 21 c2                and    edx,r8d
+44 21 c3                and    ebx,r8d
+44 21 c4                and    esp,r8d
+44 21 c5                and    ebp,r8d
+44 21 c6                and    esi,r8d
+44 21 c7                and    edi,r8d
+44 21 c8                and    eax,r9d
+44 21 c9                and    ecx,r9d
+44 21 ca                and    edx,r9d
+44 21 cb                and    ebx,r9d
+44 21 cc                and    esp,r9d
+44 21 cd                and    ebp,r9d
+44 21 ce                and    esi,r9d
+44 21 cf                and    edi,r9d
+44 21 d0                and    eax,r10d
+44 21 d1                and    ecx,r10d
+44 21 d2                and    edx,r10d
+44 21 d3                and    ebx,r10d
+44 21 d4                and    esp,r10d
+44 21 d5                and    ebp,r10d
+44 21 d6                and    esi,r10d
+44 21 d7                and    edi,r10d
+44 21 d8                and    eax,r11d
+44 21 d9                and    ecx,r11d
+44 21 da                and    edx,r11d
+44 21 db                and    ebx,r11d
+44 21 dc                and    esp,r11d
+44 21 dd                and    ebp,r11d
+44 21 de                and    esi,r11d
+44 21 df                and    edi,r11d
+44 21 e0                and    eax,r12d
+44 21 e1                and    ecx,r12d
+44 21 e2                and    edx,r12d
+44 21 e3                and    ebx,r12d
+44 21 e4                and    esp,r12d
+44 21 e5                and    ebp,r12d
+44 21 e6                and    esi,r12d
+44 21 e7                and    edi,r12d
+44 21 e8                and    eax,r13d
+44 21 e9                and    ecx,r13d
+44 21 ea                and    edx,r13d
+44 21 eb                and    ebx,r13d
+44 21 ec                and    esp,r13d
+44 21 ed                and    ebp,r13d
+44 21 ee                and    esi,r13d
+44 21 ef                and    edi,r13d
+44 21 f0                and    eax,r14d
+44 21 f1                and    ecx,r14d
+44 21 f2                and    edx,r14d
+44 21 f3                and    ebx,r14d
+44 21 f4                and    esp,r14d
+44 21 f5                and    ebp,r14d
+44 21 f6                and    esi,r14d
+44 21 f7                and    edi,r14d
+44 21 f8                and    eax,r15d
+44 21 f9                and    ecx,r15d
+44 21 fa                and    edx,r15d
+44 21 fb                and    ebx,r15d
+44 21 fc                and    esp,r15d
+44 21 fd                and    ebp,r15d
+44 21 fe                and    esi,r15d
+44 21 ff                and    edi,r15d
+44 29 c0                sub    eax,r8d
+44 29 c1                sub    ecx,r8d
+44 29 c2                sub    edx,r8d
+44 29 c3                sub    ebx,r8d
+44 29 c4                sub    esp,r8d
+44 29 c5                sub    ebp,r8d
+44 29 c6                sub    esi,r8d
+44 29 c7                sub    edi,r8d
+44 29 c8                sub    eax,r9d
+44 29 c9                sub    ecx,r9d
+44 29 ca                sub    edx,r9d
+44 29 cb                sub    ebx,r9d
+44 29 cc                sub    esp,r9d
+44 29 cd                sub    ebp,r9d
+44 29 ce                sub    esi,r9d
+44 29 cf                sub    edi,r9d
+44 29 d0                sub    eax,r10d
+44 29 d1                sub    ecx,r10d
+44 29 d2                sub    edx,r10d
+44 29 d3                sub    ebx,r10d
+44 29 d4                sub    esp,r10d
+44 29 d5                sub    ebp,r10d
+44 29 d6                sub    esi,r10d
+44 29 d7                sub    edi,r10d
+44 29 d8                sub    eax,r11d
+44 29 d9                sub    ecx,r11d
+44 29 da                sub    edx,r11d
+44 29 db                sub    ebx,r11d
+44 29 dc                sub    esp,r11d
+44 29 dd                sub    ebp,r11d
+44 29 de                sub    esi,r11d
+44 29 df                sub    edi,r11d
+44 29 e0                sub    eax,r12d
+44 29 e1                sub    ecx,r12d
+44 29 e2                sub    edx,r12d
+44 29 e3                sub    ebx,r12d
+44 29 e4                sub    esp,r12d
+44 29 e5                sub    ebp,r12d
+44 29 e6                sub    esi,r12d
+44 29 e7                sub    edi,r12d
+44 29 e8                sub    eax,r13d
+44 29 e9                sub    ecx,r13d
+44 29 ea                sub    edx,r13d
+44 29 eb                sub    ebx,r13d
+44 29 ec                sub    esp,r13d
+44 29 ed                sub    ebp,r13d
+44 29 ee                sub    esi,r13d
+44 29 ef                sub    edi,r13d
+44 29 f0                sub    eax,r14d
+44 29 f1                sub    ecx,r14d
+44 29 f2                sub    edx,r14d
+44 29 f3                sub    ebx,r14d
+44 29 f4                sub    esp,r14d
+44 29 f5                sub    ebp,r14d
+44 29 f6                sub    esi,r14d
+44 29 f7                sub    edi,r14d
+44 29 f8                sub    eax,r15d
+44 29 f9                sub    ecx,r15d
+44 29 fa                sub    edx,r15d
+44 29 fb                sub    ebx,r15d
+44 29 fc                sub    esp,r15d
+44 29 fd                sub    ebp,r15d
+44 29 fe                sub    esi,r15d
+44 29 ff                sub    edi,r15d
+44 31 c0                xor    eax,r8d
+44 31 c1                xor    ecx,r8d
+44 31 c2                xor    edx,r8d
+44 31 c3                xor    ebx,r8d
+44 31 c4                xor    esp,r8d
+44 31 c5                xor    ebp,r8d
+44 31 c6                xor    esi,r8d
+44 31 c7                xor    edi,r8d
+44 31 c8                xor    eax,r9d
+44 31 c9                xor    ecx,r9d
+44 31 ca                xor    edx,r9d
+44 31 cb                xor    ebx,r9d
+44 31 cc                xor    esp,r9d
+44 31 cd                xor    ebp,r9d
+44 31 ce                xor    esi,r9d
+44 31 cf                xor    edi,r9d
+44 31 d0                xor    eax,r10d
+44 31 d1                xor    ecx,r10d
+44 31 d2                xor    edx,r10d
+44 31 d3                xor    ebx,r10d
+44 31 d4                xor    esp,r10d
+44 31 d5                xor    ebp,r10d
+44 31 d6                xor    esi,r10d
+44 31 d7                xor    edi,r10d
+44 31 d8                xor    eax,r11d
+44 31 d9                xor    ecx,r11d
+44 31 da                xor    edx,r11d
+44 31 db                xor    ebx,r11d
+44 31 dc                xor    esp,r11d
+44 31 dd                xor    ebp,r11d
+44 31 de                xor    esi,r11d
+44 31 df                xor    edi,r11d
+44 31 e0                xor    eax,r12d
+44 31 e1                xor    ecx,r12d
+44 31 e2                xor    edx,r12d
+44 31 e3                xor    ebx,r12d
+44 31 e4                xor    esp,r12d
+44 31 e5                xor    ebp,r12d
+44 31 e6                xor    esi,r12d
+44 31 e7                xor    edi,r12d
+44 31 e8                xor    eax,r13d
+44 31 e9                xor    ecx,r13d
+44 31 ea                xor    edx,r13d
+44 31 eb                xor    ebx,r13d
+44 31 ec                xor    esp,r13d
+44 31 ed                xor    ebp,r13d
+44 31 ee                xor    esi,r13d
+44 31 ef                xor    edi,r13d
+44 31 f0                xor    eax,r14d
+44 31 f1                xor    ecx,r14d
+44 31 f2                xor    edx,r14d
+44 31 f3                xor    ebx,r14d
+44 31 f4                xor    esp,r14d
+44 31 f5                xor    ebp,r14d
+44 31 f6                xor    esi,r14d
+44 31 f7                xor    edi,r14d
+44 31 f8                xor    eax,r15d
+44 31 f9                xor    ecx,r15d
+44 31 fa                xor    edx,r15d
+44 31 fb                xor    ebx,r15d
+44 31 fc                xor    esp,r15d
+44 31 fd                xor    ebp,r15d
+44 31 fe                xor    esi,r15d
+44 31 ff                xor    edi,r15d
+44 89 c0                mov    eax,r8d
+44 89 c1                mov    ecx,r8d
+44 89 c2                mov    edx,r8d
+44 89 c3                mov    ebx,r8d
+44 89 c4                mov    esp,r8d
+44 89 c5                mov    ebp,r8d
+44 89 c6                mov    esi,r8d
+44 89 c7                mov    edi,r8d
+44 89 c8                mov    eax,r9d
+44 89 c9                mov    ecx,r9d
+44 89 ca                mov    edx,r9d
+44 89 cb                mov    ebx,r9d
+44 89 cc                mov    esp,r9d
+44 89 cd                mov    ebp,r9d
+44 89 ce                mov    esi,r9d
+44 89 cf                mov    edi,r9d
+44 89 d0                mov    eax,r10d
+44 89 d1                mov    ecx,r10d
+44 89 d2                mov    edx,r10d
+44 89 d3                mov    ebx,r10d
+44 89 d4                mov    esp,r10d
+44 89 d5                mov    ebp,r10d
+44 89 d6                mov    esi,r10d
+44 89 d7                mov    edi,r10d
+44 89 d8                mov    eax,r11d
+44 89 d9                mov    ecx,r11d
+44 89 da                mov    edx,r11d
+44 89 db                mov    ebx,r11d
+44 89 dc                mov    esp,r11d
+44 89 dd                mov    ebp,r11d
+44 89 de                mov    esi,r11d
+44 89 df                mov    edi,r11d
+44 89 e0                mov    eax,r12d
+44 89 e1                mov    ecx,r12d
+44 89 e2                mov    edx,r12d
+44 89 e3                mov    ebx,r12d
+44 89 e4                mov    esp,r12d
+44 89 e5                mov    ebp,r12d
+44 89 e6                mov    esi,r12d
+44 89 e7                mov    edi,r12d
+44 89 e8                mov    eax,r13d
+44 89 e9                mov    ecx,r13d
+44 89 ea                mov    edx,r13d
+44 89 eb                mov    ebx,r13d
+44 89 ec                mov    esp,r13d
+44 89 ed                mov    ebp,r13d
+44 89 ee                mov    esi,r13d
+44 89 ef                mov    edi,r13d
+44 89 f0                mov    eax,r14d
+44 89 f1                mov    ecx,r14d
+44 89 f2                mov    edx,r14d
+44 89 f3                mov    ebx,r14d
+44 89 f4                mov    esp,r14d
+44 89 f5                mov    ebp,r14d
+44 89 f6                mov    esi,r14d
+44 89 f7                mov    edi,r14d
+44 89 f8                mov    eax,r15d
+44 89 f9                mov    ecx,r15d
+44 89 fa                mov    edx,r15d
+44 89 fb                mov    ebx,r15d
+44 89 fc                mov    esp,r15d
+44 89 fd                mov    ebp,r15d
+44 89 fe                mov    esi,r15d
+44 89 ff                mov    edi,r15d
+45 01 c0                add    r8d,r8d
+45 01 c1                add    r9d,r8d
+45 01 c2                add    r10d,r8d
+45 01 c3                add    r11d,r8d
+45 01 c4                add    r12d,r8d
+45 01 c5                add    r13d,r8d
+45 01 c6                add    r14d,r8d
+45 01 c7                add    r15d,r8d
+45 01 c8                add    r8d,r9d
+45 01 c9                add    r9d,r9d
+45 01 ca                add    r10d,r9d
+45 01 cb                add    r11d,r9d
+45 01 cc                add    r12d,r9d
+45 01 cd                add    r13d,r9d
+45 01 ce                add    r14d,r9d
+45 01 cf                add    r15d,r9d
+45 01 d0                add    r8d,r10d
+45 01 d1                add    r9d,r10d
+45 01 d2                add    r10d,r10d
+45 01 d3                add    r11d,r10d
+45 01 d4                add    r12d,r10d
+45 01 d5                add    r13d,r10d
+45 01 d6                add    r14d,r10d
+45 01 d7                add    r15d,r10d
+45 01 d8                add    r8d,r11d
+45 01 d9                add    r9d,r11d
+45 01 da                add    r10d,r11d
+45 01 db                add    r11d,r11d
+45 01 dc                add    r12d,r11d
+45 01 dd                add    r13d,r11d
+45 01 de                add    r14d,r11d
+45 01 df                add    r15d,r11d
+45 01 e0                add    r8d,r12d
+45 01 e1                add    r9d,r12d
+45 01 e2                add    r10d,r12d
+45 01 e3                add    r11d,r12d
+45 01 e4                add    r12d,r12d
+45 01 e5                add    r13d,r12d
+45 01 e6                add    r14d,r12d
+45 01 e7                add    r15d,r12d
+45 01 e8                add    r8d,r13d
+45 01 e9                add    r9d,r13d
+45 01 ea                add    r10d,r13d
+45 01 eb                add    r11d,r13d
+45 01 ec                add    r12d,r13d
+45 01 ed                add    r13d,r13d
+45 01 ee                add    r14d,r13d
+45 01 ef                add    r15d,r13d
+45 01 f0                add    r8d,r14d
+45 01 f1                add    r9d,r14d
+45 01 f2                add    r10d,r14d
+45 01 f3                add    r11d,r14d
+45 01 f4                add    r12d,r14d
+45 01 f5                add    r13d,r14d
+45 01 f6                add    r14d,r14d
+45 01 f7                add    r15d,r14d
+45 01 f8                add    r8d,r15d
+45 01 f9                add    r9d,r15d
+45 01 fa                add    r10d,r15d
+45 01 fb                add    r11d,r15d
+45 01 fc                add    r12d,r15d
+45 01 fd                add    r13d,r15d
+45 01 fe                add    r14d,r15d
+45 01 ff                add    r15d,r15d
+45 09 c0                or     r8d,r8d
+45 09 c1                or     r9d,r8d
+45 09 c2                or     r10d,r8d
+45 09 c3                or     r11d,r8d
+45 09 c4                or     r12d,r8d
+45 09 c5                or     r13d,r8d
+45 09 c6                or     r14d,r8d
+45 09 c7                or     r15d,r8d
+45 09 c8                or     r8d,r9d
+45 09 c9                or     r9d,r9d
+45 09 ca                or     r10d,r9d
+45 09 cb                or     r11d,r9d
+45 09 cc                or     r12d,r9d
+45 09 cd                or     r13d,r9d
+45 09 ce                or     r14d,r9d
+45 09 cf                or     r15d,r9d
+45 09 d0                or     r8d,r10d
+45 09 d1                or     r9d,r10d
+45 09 d2                or     r10d,r10d
+45 09 d3                or     r11d,r10d
+45 09 d4                or     r12d,r10d
+45 09 d5                or     r13d,r10d
+45 09 d6                or     r14d,r10d
+45 09 d7                or     r15d,r10d
+45 09 d8                or     r8d,r11d
+45 09 d9                or     r9d,r11d
+45 09 da                or     r10d,r11d
+45 09 db                or     r11d,r11d
+45 09 dc                or     r12d,r11d
+45 09 dd                or     r13d,r11d
+45 09 de                or     r14d,r11d
+45 09 df                or     r15d,r11d
+45 09 e0                or     r8d,r12d
+45 09 e1                or     r9d,r12d
+45 09 e2                or     r10d,r12d
+45 09 e3                or     r11d,r12d
+45 09 e4                or     r12d,r12d
+45 09 e5                or     r13d,r12d
+45 09 e6                or     r14d,r12d
+45 09 e7                or     r15d,r12d
+45 09 e8                or     r8d,r13d
+45 09 e9                or     r9d,r13d
+45 09 ea                or     r10d,r13d
+45 09 eb                or     r11d,r13d
+45 09 ec                or     r12d,r13d
+45 09 ed                or     r13d,r13d
+45 09 ee                or     r14d,r13d
+45 09 ef                or     r15d,r13d
+45 09 f0                or     r8d,r14d
+45 09 f1                or     r9d,r14d
+45 09 f2                or     r10d,r14d
+45 09 f3                or     r11d,r14d
+45 09 f4                or     r12d,r14d
+45 09 f5                or     r13d,r14d
+45 09 f6                or     r14d,r14d
+45 09 f7                or     r15d,r14d
+45 09 f8                or     r8d,r15d
+45 09 f9                or     r9d,r15d
+45 09 fa                or     r10d,r15d
+45 09 fb                or     r11d,r15d
+45 09 fc                or     r12d,r15d
+45 09 fd                or     r13d,r15d
+45 09 fe                or     r14d,r15d
+45 09 ff                or     r15d,r15d
+45 21 c0                and    r8d,r8d
+45 21 c1                and    r9d,r8d
+45 21 c2                and    r10d,r8d
+45 21 c3                and    r11d,r8d
+45 21 c4                and    r12d,r8d
+45 21 c5                and    r13d,r8d
+45 21 c6                and    r14d,r8d
+45 21 c7                and    r15d,r8d
+45 21 c8                and    r8d,r9d
+45 21 c9                and    r9d,r9d
+45 21 ca                and    r10d,r9d
+45 21 cb                and    r11d,r9d
+45 21 cc                and    r12d,r9d
+45 21 cd                and    r13d,r9d
+45 21 ce                and    r14d,r9d
+45 21 cf                and    r15d,r9d
+45 21 d0                and    r8d,r10d
+45 21 d1                and    r9d,r10d
+45 21 d2                and    r10d,r10d
+45 21 d3                and    r11d,r10d
+45 21 d4                and    r12d,r10d
+45 21 d5                and    r13d,r10d
+45 21 d6                and    r14d,r10d
+45 21 d7                and    r15d,r10d
+45 21 d8                and    r8d,r11d
+45 21 d9                and    r9d,r11d
+45 21 da                and    r10d,r11d
+45 21 db                and    r11d,r11d
+45 21 dc                and    r12d,r11d
+45 21 dd                and    r13d,r11d
+45 21 de                and    r14d,r11d
+45 21 df                and    r15d,r11d
+45 21 e0                and    r8d,r12d
+45 21 e1                and    r9d,r12d
+45 21 e2                and    r10d,r12d
+45 21 e3                and    r11d,r12d
+45 21 e4                and    r12d,r12d
+45 21 e5                and    r13d,r12d
+45 21 e6                and    r14d,r12d
+45 21 e7                and    r15d,r12d
+45 21 e8                and    r8d,r13d
+45 21 e9                and    r9d,r13d
+45 21 ea                and    r10d,r13d
+45 21 eb                and    r11d,r13d
+45 21 ec                and    r12d,r13d
+45 21 ed                and    r13d,r13d
+45 21 ee                and    r14d,r13d
+45 21 ef                and    r15d,r13d
+45 21 f0                and    r8d,r14d
+45 21 f1                and    r9d,r14d
+45 21 f2                and    r10d,r14d
+45 21 f3                and    r11d,r14d
+45 21 f4                and    r12d,r14d
+45 21 f5                and    r13d,r14d
+45 21 f6                and    r14d,r14d
+45 21 f7                and    r15d,r14d
+45 21 f8                and    r8d,r15d
+45 21 f9                and    r9d,r15d
+45 21 fa                and    r10d,r15d
+45 21 fb                and    r11d,r15d
+45 21 fc                and    r12d,r15d
+45 21 fd                and    r13d,r15d
+45 21 fe                and    r14d,r15d
+45 21 ff                and    r15d,r15d
+45 29 c0                sub    r8d,r8d
+45 29 c1                sub    r9d,r8d
+45 29 c2                sub    r10d,r8d
+45 29 c3                sub    r11d,r8d
+45 29 c4                sub    r12d,r8d
+45 29 c5                sub    r13d,r8d
+45 29 c6                sub    r14d,r8d
+45 29 c7                sub    r15d,r8d
+45 29 c8                sub    r8d,r9d
+45 29 c9                sub    r9d,r9d
+45 29 ca                sub    r10d,r9d
+45 29 cb                sub    r11d,r9d
+45 29 cc                sub    r12d,r9d
+45 29 cd                sub    r13d,r9d
+45 29 ce                sub    r14d,r9d
+45 29 cf                sub    r15d,r9d
+45 29 d0                sub    r8d,r10d
+45 29 d1                sub    r9d,r10d
+45 29 d2                sub    r10d,r10d
+45 29 d3                sub    r11d,r10d
+45 29 d4                sub    r12d,r10d
+45 29 d5                sub    r13d,r10d
+45 29 d6                sub    r14d,r10d
+45 29 d7                sub    r15d,r10d
+45 29 d8                sub    r8d,r11d
+45 29 d9                sub    r9d,r11d
+45 29 da                sub    r10d,r11d
+45 29 db                sub    r11d,r11d
+45 29 dc                sub    r12d,r11d
+45 29 dd                sub    r13d,r11d
+45 29 de                sub    r14d,r11d
+45 29 df                sub    r15d,r11d
+45 29 e0                sub    r8d,r12d
+45 29 e1                sub    r9d,r12d
+45 29 e2                sub    r10d,r12d
+45 29 e3                sub    r11d,r12d
+45 29 e4                sub    r12d,r12d
+45 29 e5                sub    r13d,r12d
+45 29 e6                sub    r14d,r12d
+45 29 e7                sub    r15d,r12d
+45 29 e8                sub    r8d,r13d
+45 29 e9                sub    r9d,r13d
+45 29 ea                sub    r10d,r13d
+45 29 eb                sub    r11d,r13d
+45 29 ec                sub    r12d,r13d
+45 29 ed                sub    r13d,r13d
+45 29 ee                sub    r14d,r13d
+45 29 ef                sub    r15d,r13d
+45 29 f0                sub    r8d,r14d
+45 29 f1                sub    r9d,r14d
+45 29 f2                sub    r10d,r14d
+45 29 f3                sub    r11d,r14d
+45 29 f4                sub    r12d,r14d
+45 29 f5                sub    r13d,r14d
+45 29 f6                sub    r14d,r14d
+45 29 f7                sub    r15d,r14d
+45 29 f8                sub    r8d,r15d
+45 29 f9                sub    r9d,r15d
+45 29 fa                sub    r10d,r15d
+45 29 fb                sub    r11d,r15d
+45 29 fc                sub    r12d,r15d
+45 29 fd                sub    r13d,r15d
+45 29 fe                sub    r14d,r15d
+45 29 ff                sub    r15d,r15d
+45 31 c0                xor    r8d,r8d
+45 31 c1                xor    r9d,r8d
+45 31 c2                xor    r10d,r8d
+45 31 c3                xor    r11d,r8d
+45 31 c4                xor    r12d,r8d
+45 31 c5                xor    r13d,r8d
+45 31 c6                xor    r14d,r8d
+45 31 c7                xor    r15d,r8d
+45 31 c8                xor    r8d,r9d
+45 31 c9                xor    r9d,r9d
+45 31 ca                xor    r10d,r9d
+45 31 cb                xor    r11d,r9d
+45 31 cc                xor    r12d,r9d
+45 31 cd                xor    r13d,r9d
+45 31 ce                xor    r14d,r9d
+45 31 cf                xor    r15d,r9d
+45 31 d0                xor    r8d,r10d
+45 31 d1                xor    r9d,r10d
+45 31 d2                xor    r10d,r10d
+45 31 d3                xor    r11d,r10d
+45 31 d4                xor    r12d,r10d
+45 31 d5                xor    r13d,r10d
+45 31 d6                xor    r14d,r10d
+45 31 d7                xor    r15d,r10d
+45 31 d8                xor    r8d,r11d
+45 31 d9                xor    r9d,r11d
+45 31 da                xor    r10d,r11d
+45 31 db                xor    r11d,r11d
+45 31 dc                xor    r12d,r11d
+45 31 dd                xor    r13d,r11d
+45 31 de                xor    r14d,r11d
+45 31 df                xor    r15d,r11d
+45 31 e0                xor    r8d,r12d
+45 31 e1                xor    r9d,r12d
+45 31 e2                xor    r10d,r12d
+45 31 e3                xor    r11d,r12d
+45 31 e4                xor    r12d,r12d
+45 31 e5                xor    r13d,r12d
+45 31 e6                xor    r14d,r12d
+45 31 e7                xor    r15d,r12d
+45 31 e8                xor    r8d,r13d
+45 31 e9                xor    r9d,r13d
+45 31 ea                xor    r10d,r13d
+45 31 eb                xor    r11d,r13d
+45 31 ec                xor    r12d,r13d
+45 31 ed                xor    r13d,r13d
+45 31 ee                xor    r14d,r13d
+45 31 ef                xor    r15d,r13d
+45 31 f0                xor    r8d,r14d
+45 31 f1                xor    r9d,r14d
+45 31 f2                xor    r10d,r14d
+45 31 f3                xor    r11d,r14d
+45 31 f4                xor    r12d,r14d
+45 31 f5                xor    r13d,r14d
+45 31 f6                xor    r14d,r14d
+45 31 f7                xor    r15d,r14d
+45 31 f8                xor    r8d,r15d
+45 31 f9                xor    r9d,r15d
+45 31 fa                xor    r10d,r15d
+45 31 fb                xor    r11d,r15d
+45 31 fc                xor    r12d,r15d
+45 31 fd                xor    r13d,r15d
+45 31 fe                xor    r14d,r15d
+45 31 ff                xor    r15d,r15d
+45 89 c0                mov    r8d,r8d
+45 89 c1                mov    r9d,r8d
+45 89 c2                mov    r10d,r8d
+45 89 c3                mov    r11d,r8d
+45 89 c4                mov    r12d,r8d
+45 89 c5                mov    r13d,r8d
+45 89 c6                mov    r14d,r8d
+45 89 c7                mov    r15d,r8d
+45 89 c8                mov    r8d,r9d
+45 89 c9                mov    r9d,r9d
+45 89 ca                mov    r10d,r9d
+45 89 cb                mov    r11d,r9d
+45 89 cc                mov    r12d,r9d
+45 89 cd                mov    r13d,r9d
+45 89 ce                mov    r14d,r9d
+45 89 cf                mov    r15d,r9d
+45 89 d0                mov    r8d,r10d
+45 89 d1                mov    r9d,r10d
+45 89 d2                mov    r10d,r10d
+45 89 d3                mov    r11d,r10d
+45 89 d4                mov    r12d,r10d
+45 89 d5                mov    r13d,r10d
+45 89 d6                mov    r14d,r10d
+45 89 d7                mov    r15d,r10d
+45 89 d8                mov    r8d,r11d
+45 89 d9                mov    r9d,r11d
+45 89 da                mov    r10d,r11d
+45 89 db                mov    r11d,r11d
+45 89 dc                mov    r12d,r11d
+45 89 dd                mov    r13d,r11d
+45 89 de                mov    r14d,r11d
+45 89 df                mov    r15d,r11d
+45 89 e0                mov    r8d,r12d
+45 89 e1                mov    r9d,r12d
+45 89 e2                mov    r10d,r12d
+45 89 e3                mov    r11d,r12d
+45 89 e4                mov    r12d,r12d
+45 89 e5                mov    r13d,r12d
+45 89 e6                mov    r14d,r12d
+45 89 e7                mov    r15d,r12d
+45 89 e8                mov    r8d,r13d
+45 89 e9                mov    r9d,r13d
+45 89 ea                mov    r10d,r13d
+45 89 eb                mov    r11d,r13d
+45 89 ec                mov    r12d,r13d
+45 89 ed                mov    r13d,r13d
+45 89 ee                mov    r14d,r13d
+45 89 ef                mov    r15d,r13d
+45 89 f0                mov    r8d,r14d
+45 89 f1                mov    r9d,r14d
+45 89 f2                mov    r10d,r14d
+45 89 f3                mov    r11d,r14d
+45 89 f4                mov    r12d,r14d
+45 89 f5                mov    r13d,r14d
+45 89 f6                mov    r14d,r14d
+45 89 f7                mov    r15d,r14d
+45 89 f8                mov    r8d,r15d
+45 89 f9                mov    r9d,r15d
+45 89 fa                mov    r10d,r15d
+45 89 fb                mov    r11d,r15d
+45 89 fc                mov    r12d,r15d
+45 89 fd                mov    r13d,r15d
+45 89 fe                mov    r14d,r15d
+45 89 ff                mov    r15d,r15d
+67 41 89 00             mov    DWORD PTR [r8d],eax
+67 41 89 01             mov    DWORD PTR [r9d],eax
+67 41 89 02             mov    DWORD PTR [r10d],eax
+67 41 89 03             mov    DWORD PTR [r11d],eax
+67 41 89 04 24          mov    DWORD PTR [r12d],eax
+67 41 89 06             mov    DWORD PTR [r14d],eax
+67 41 89 07             mov    DWORD PTR [r15d],eax
+67 41 89 08             mov    DWORD PTR [r8d],ecx
+67 41 89 09             mov    DWORD PTR [r9d],ecx
+67 41 89 0a             mov    DWORD PTR [r10d],ecx
+67 41 89 0b             mov    DWORD PTR [r11d],ecx
+67 41 89 0c 24          mov    DWORD PTR [r12d],ecx
+67 41 89 0e             mov    DWORD PTR [r14d],ecx
+67 41 89 0f             mov    DWORD PTR [r15d],ecx
+67 41 89 10             mov    DWORD PTR [r8d],edx
+67 41 89 11             mov    DWORD PTR [r9d],edx
+67 41 89 12             mov    DWORD PTR [r10d],edx
+67 41 89 13             mov    DWORD PTR [r11d],edx
+67 41 89 14 24          mov    DWORD PTR [r12d],edx
+67 41 89 16             mov    DWORD PTR [r14d],edx
+67 41 89 17             mov    DWORD PTR [r15d],edx
+67 41 89 18             mov    DWORD PTR [r8d],ebx
+67 41 89 19             mov    DWORD PTR [r9d],ebx
+67 41 89 1a             mov    DWORD PTR [r10d],ebx
+67 41 89 1b             mov    DWORD PTR [r11d],ebx
+67 41 89 1c 24          mov    DWORD PTR [r12d],ebx
+67 41 89 1e             mov    DWORD PTR [r14d],ebx
+67 41 89 1f             mov    DWORD PTR [r15d],ebx
+67 41 89 20             mov    DWORD PTR [r8d],esp
+67 41 89 21             mov    DWORD PTR [r9d],esp
+67 41 89 22             mov    DWORD PTR [r10d],esp
+67 41 89 23             mov    DWORD PTR [r11d],esp
+67 41 89 24 24          mov    DWORD PTR [r12d],esp
+67 41 89 26             mov    DWORD PTR [r14d],esp
+67 41 89 27             mov    DWORD PTR [r15d],esp
+67 41 89 28             mov    DWORD PTR [r8d],ebp
+67 41 89 29             mov    DWORD PTR [r9d],ebp
+67 41 89 2a             mov    DWORD PTR [r10d],ebp
+67 41 89 2b             mov    DWORD PTR [r11d],ebp
+67 41 89 2c 24          mov    DWORD PTR [r12d],ebp
+67 41 89 2e             mov    DWORD PTR [r14d],ebp
+67 41 89 2f             mov    DWORD PTR [r15d],ebp
+67 41 89 30             mov    DWORD PTR [r8d],esi
+67 41 89 31             mov    DWORD PTR [r9d],esi
+67 41 89 32             mov    DWORD PTR [r10d],esi
+67 41 89 33             mov    DWORD PTR [r11d],esi
+67 41 89 34 24          mov    DWORD PTR [r12d],esi
+67 41 89 36             mov    DWORD PTR [r14d],esi
+67 41 89 37             mov    DWORD PTR [r15d],esi
+67 41 89 38             mov    DWORD PTR [r8d],edi
+67 41 89 39             mov    DWORD PTR [r9d],edi
+67 41 89 3a             mov    DWORD PTR [r10d],edi
+67 41 89 3b             mov    DWORD PTR [r11d],edi
+67 41 89 3c 24          mov    DWORD PTR [r12d],edi
+67 41 89 3e             mov    DWORD PTR [r14d],edi
+67 41 89 3f             mov    DWORD PTR [r15d],edi
+67 41 89 45 00          mov    DWORD PTR [r13d+0x0],eax
+67 41 89 4d 00          mov    DWORD PTR [r13d+0x0],ecx
+67 41 89 55 00          mov    DWORD PTR [r13d+0x0],edx
+67 41 89 5d 00          mov    DWORD PTR [r13d+0x0],ebx
+67 41 89 65 00          mov    DWORD PTR [r13d+0x0],esp
+67 41 89 6d 00          mov    DWORD PTR [r13d+0x0],ebp
+67 41 89 75 00          mov    DWORD PTR [r13d+0x0],esi
+67 41 89 7d 00          mov    DWORD PTR [r13d+0x0],edi
+67 41 8b 00             mov    eax,DWORD PTR [r8d]
+67 41 8b 01             mov    eax,DWORD PTR [r9d]
+67 41 8b 02             mov    eax,DWORD PTR [r10d]
+67 41 8b 03             mov    eax,DWORD PTR [r11d]
+67 41 8b 04 24          mov    eax,DWORD PTR [r12d]
+67 41 8b 06             mov    eax,DWORD PTR [r14d]
+67 41 8b 07             mov    eax,DWORD PTR [r15d]
+67 41 8b 08             mov    ecx,DWORD PTR [r8d]
+67 41 8b 09             mov    ecx,DWORD PTR [r9d]
+67 41 8b 0a             mov    ecx,DWORD PTR [r10d]
+67 41 8b 0b             mov    ecx,DWORD PTR [r11d]
+67 41 8b 0c 24          mov    ecx,DWORD PTR [r12d]
+67 41 8b 0e             mov    ecx,DWORD PTR [r14d]
+67 41 8b 0f             mov    ecx,DWORD PTR [r15d]
+67 41 8b 10             mov    edx,DWORD PTR [r8d]
+67 41 8b 11             mov    edx,DWORD PTR [r9d]
+67 41 8b 12             mov    edx,DWORD PTR [r10d]
+67 41 8b 13             mov    edx,DWORD PTR [r11d]
+67 41 8b 14 24          mov    edx,DWORD PTR [r12d]
+67 41 8b 16             mov    edx,DWORD PTR [r14d]
+67 41 8b 17             mov    edx,DWORD PTR [r15d]
+67 41 8b 18             mov    ebx,DWORD PTR [r8d]
+67 41 8b 19             mov    ebx,DWORD PTR [r9d]
+67 41 8b 1a             mov    ebx,DWORD PTR [r10d]
+67 41 8b 1b             mov    ebx,DWORD PTR [r11d]
+67 41 8b 1c 24          mov    ebx,DWORD PTR [r12d]
+67 41 8b 1e             mov    ebx,DWORD PTR [r14d]
+67 41 8b 1f             mov    ebx,DWORD PTR [r15d]
+67 41 8b 20             mov    esp,DWORD PTR [r8d]
+67 41 8b 21             mov    esp,DWORD PTR [r9d]
+67 41 8b 22             mov    esp,DWORD PTR [r10d]
+67 41 8b 23             mov    esp,DWORD PTR [r11d]
+67 41 8b 24 24          mov    esp,DWORD PTR [r12d]
+67 41 8b 26             mov    esp,DWORD PTR [r14d]
+67 41 8b 27             mov    esp,DWORD PTR [r15d]
+67 41 8b 28             mov    ebp,DWORD PTR [r8d]
+67 41 8b 29             mov    ebp,DWORD PTR [r9d]
+67 41 8b 2a             mov    ebp,DWORD PTR [r10d]
+67 41 8b 2b             mov    ebp,DWORD PTR [r11d]
+67 41 8b 2c 24          mov    ebp,DWORD PTR [r12d]
+67 41 8b 2e             mov    ebp,DWORD PTR [r14d]
+67 41 8b 2f             mov    ebp,DWORD PTR [r15d]
+67 41 8b 30             mov    esi,DWORD PTR [r8d]
+67 41 8b 31             mov    esi,DWORD PTR [r9d]
+67 41 8b 32             mov    esi,DWORD PTR [r10d]
+67 41 8b 33             mov    esi,DWORD PTR [r11d]
+67 41 8b 34 24          mov    esi,DWORD PTR [r12d]
+67 41 8b 36             mov    esi,DWORD PTR [r14d]
+67 41 8b 37             mov    esi,DWORD PTR [r15d]
+67 41 8b 38             mov    edi,DWORD PTR [r8d]
+67 41 8b 39             mov    edi,DWORD PTR [r9d]
+67 41 8b 3a             mov    edi,DWORD PTR [r10d]
+67 41 8b 3b             mov    edi,DWORD PTR [r11d]
+67 41 8b 3c 24          mov    edi,DWORD PTR [r12d]
+67 41 8b 3e             mov    edi,DWORD PTR [r14d]
+67 41 8b 3f             mov    edi,DWORD PTR [r15d]
+67 41 8b 45 00          mov    eax,DWORD PTR [r13d+0x0]
+67 41 8b 4d 00          mov    ecx,DWORD PTR [r13d+0x0]
+67 41 8b 55 00          mov    edx,DWORD PTR [r13d+0x0]
+67 41 8b 5d 00          mov    ebx,DWORD PTR [r13d+0x0]
+67 41 8b 65 00          mov    esp,DWORD PTR [r13d+0x0]
+67 41 8b 6d 00          mov    ebp,DWORD PTR [r13d+0x0]
+67 41 8b 75 00          mov    esi,DWORD PTR [r13d+0x0]
+67 41 8b 7d 00          mov    edi,DWORD PTR [r13d+0x0]
+67 44 89 00             mov    DWORD PTR [eax],r8d
+67 44 89 01             mov    DWORD PTR [ecx],r8d
+67 44 89 02             mov    DWORD PTR [edx],r8d
+67 44 89 03             mov    DWORD PTR [ebx],r8d
+67 44 89 04 24          mov    DWORD PTR [esp],r8d
+67 44 89 06             mov    DWORD PTR [esi],r8d
+67 44 89 07             mov    DWORD PTR [edi],r8d
+67 44 89 08             mov    DWORD PTR [eax],r9d
+67 44 89 09             mov    DWORD PTR [ecx],r9d
+67 44 89 0a             mov    DWORD PTR [edx],r9d
+67 44 89 0b             mov    DWORD PTR [ebx],r9d
+67 44 89 0c 24          mov    DWORD PTR [esp],r9d
+67 44 89 0e             mov    DWORD PTR [esi],r9d
+67 44 89 0f             mov    DWORD PTR [edi],r9d
+67 44 89 10             mov    DWORD PTR [eax],r10d
+67 44 89 11             mov    DWORD PTR [ecx],r10d
+67 44 89 12             mov    DWORD PTR [edx],r10d
+67 44 89 13             mov    DWORD PTR [ebx],r10d
+67 44 89 14 24          mov    DWORD PTR [esp],r10d
+67 44 89 16             mov    DWORD PTR [esi],r10d
+67 44 89 17             mov    DWORD PTR [edi],r10d
+67 44 89 18             mov    DWORD PTR [eax],r11d
+67 44 89 19             mov    DWORD PTR [ecx],r11d
+67 44 89 1a             mov    DWORD PTR [edx],r11d
+67 44 89 1b             mov    DWORD PTR [ebx],r11d
+67 44 89 1c 24          mov    DWORD PTR [esp],r11d
+67 44 89 1e             mov    DWORD PTR [esi],r11d
+67 44 89 1f             mov    DWORD PTR [edi],r11d
+67 44 89 20             mov    DWORD PTR [eax],r12d
+67 44 89 21             mov    DWORD PTR [ecx],r12d
+67 44 89 22             mov    DWORD PTR [edx],r12d
+67 44 89 23             mov    DWORD PTR [ebx],r12d
+67 44 89 24 24          mov    DWORD PTR [esp],r12d
+67 44 89 26             mov    DWORD PTR [esi],r12d
+67 44 89 27             mov    DWORD PTR [edi],r12d
+67 44 89 28             mov    DWORD PTR [eax],r13d
+67 44 89 29             mov    DWORD PTR [ecx],r13d
+67 44 89 2a             mov    DWORD PTR [edx],r13d
+67 44 89 2b             mov    DWORD PTR [ebx],r13d
+67 44 89 2c 24          mov    DWORD PTR [esp],r13d
+67 44 89 2e             mov    DWORD PTR [esi],r13d
+67 44 89 2f             mov    DWORD PTR [edi],r13d
+67 44 89 30             mov    DWORD PTR [eax],r14d
+67 44 89 31             mov    DWORD PTR [ecx],r14d
+67 44 89 32             mov    DWORD PTR [edx],r14d
+67 44 89 33             mov    DWORD PTR [ebx],r14d
+67 44 89 34 24          mov    DWORD PTR [esp],r14d
+67 44 89 36             mov    DWORD PTR [esi],r14d
+67 44 89 37             mov    DWORD PTR [edi],r14d
+67 44 89 38             mov    DWORD PTR [eax],r15d
+67 44 89 39             mov    DWORD PTR [ecx],r15d
+67 44 89 3a             mov    DWORD PTR [edx],r15d
+67 44 89 3b             mov    DWORD PTR [ebx],r15d
+67 44 89 3c 24          mov    DWORD PTR [esp],r15d
+67 44 89 3e             mov    DWORD PTR [esi],r15d
+67 44 89 3f             mov    DWORD PTR [edi],r15d
+67 44 89 45 00          mov    DWORD PTR [ebp+0x0],r8d
+67 44 89 4d 00          mov    DWORD PTR [ebp+0x0],r9d
+67 44 89 55 00          mov    DWORD PTR [ebp+0x0],r10d
+67 44 89 5d 00          mov    DWORD PTR [ebp+0x0],r11d
+67 44 89 65 00          mov    DWORD PTR [ebp+0x0],r12d
+67 44 89 6d 00          mov    DWORD PTR [ebp+0x0],r13d
+67 44 89 75 00          mov    DWORD PTR [ebp+0x0],r14d
+67 44 89 7d 00          mov    DWORD PTR [ebp+0x0],r15d
+67 44 8b 00             mov    r8d,DWORD PTR [eax]
+67 44 8b 01             mov    r8d,DWORD PTR [ecx]
+67 44 8b 02             mov    r8d,DWORD PTR [edx]
+67 44 8b 03             mov    r8d,DWORD PTR [ebx]
+67 44 8b 04 24          mov    r8d,DWORD PTR [esp]
+67 44 8b 06             mov    r8d,DWORD PTR [esi]
+67 44 8b 07             mov    r8d,DWORD PTR [edi]
+67 44 8b 08             mov    r9d,DWORD PTR [eax]
+67 44 8b 09             mov    r9d,DWORD PTR [ecx]
+67 44 8b 0a             mov    r9d,DWORD PTR [edx]
+67 44 8b 0b             mov    r9d,DWORD PTR [ebx]
+67 44 8b 0c 24          mov    r9d,DWORD PTR [esp]
+67 44 8b 0e             mov    r9d,DWORD PTR [esi]
+67 44 8b 0f             mov    r9d,DWORD PTR [edi]
+67 44 8b 10             mov    r10d,DWORD PTR [eax]
+67 44 8b 11             mov    r10d,DWORD PTR [ecx]
+67 44 8b 12             mov    r10d,DWORD PTR [edx]
+67 44 8b 13             mov    r10d,DWORD PTR [ebx]
+67 44 8b 14 24          mov    r10d,DWORD PTR [esp]
+67 44 8b 16             mov    r10d,DWORD PTR [esi]
+67 44 8b 17             mov    r10d,DWORD PTR [edi]
+67 44 8b 18             mov    r11d,DWORD PTR [eax]
+67 44 8b 19             mov    r11d,DWORD PTR [ecx]
+67 44 8b 1a             mov    r11d,DWORD PTR [edx]
+67 44 8b 1b             mov    r11d,DWORD PTR [ebx]
+67 44 8b 1c 24          mov    r11d,DWORD PTR [esp]
+67 44 8b 1e             mov    r11d,DWORD PTR [esi]
+67 44 8b 1f             mov    r11d,DWORD PTR [edi]
+67 44 8b 20             mov    r12d,DWORD PTR [eax]
+67 44 8b 21             mov    r12d,DWORD PTR [ecx]
+67 44 8b 22             mov    r12d,DWORD PTR [edx]
+67 44 8b 23             mov    r12d,DWORD PTR [ebx]
+67 44 8b 24 24          mov    r12d,DWORD PTR [esp]
+67 44 8b 26             mov    r12d,DWORD PTR [esi]
+67 44 8b 27             mov    r12d,DWORD PTR [edi]
+67 44 8b 28             mov    r13d,DWORD PTR [eax]
+67 44 8b 29             mov    r13d,DWORD PTR [ecx]
+67 44 8b 2a             mov    r13d,DWORD PTR [edx]
+67 44 8b 2b             mov    r13d,DWORD PTR [ebx]
+67 44 8b 2c 24          mov    r13d,DWORD PTR [esp]
+67 44 8b 2e             mov    r13d,DWORD PTR [esi]
+67 44 8b 2f             mov    r13d,DWORD PTR [edi]
+67 44 8b 30             mov    r14d,DWORD PTR [eax]
+67 44 8b 31             mov    r14d,DWORD PTR [ecx]
+67 44 8b 32             mov    r14d,DWORD PTR [edx]
+67 44 8b 33             mov    r14d,DWORD PTR [ebx]
+67 44 8b 34 24          mov    r14d,DWORD PTR [esp]
+67 44 8b 36             mov    r14d,DWORD PTR [esi]
+67 44 8b 37             mov    r14d,DWORD PTR [edi]
+67 44 8b 38             mov    r15d,DWORD PTR [eax]
+67 44 8b 39             mov    r15d,DWORD PTR [ecx]
+67 44 8b 3a             mov    r15d,DWORD PTR [edx]
+67 44 8b 3b             mov    r15d,DWORD PTR [ebx]
+67 44 8b 3c 24          mov    r15d,DWORD PTR [esp]
+67 44 8b 3e             mov    r15d,DWORD PTR [esi]
+67 44 8b 3f             mov    r15d,DWORD PTR [edi]
+67 44 8b 45 00          mov    r8d,DWORD PTR [ebp+0x0]
+67 44 8b 4d 00          mov    r9d,DWORD PTR [ebp+0x0]
+67 44 8b 55 00          mov    r10d,DWORD PTR [ebp+0x0]
+67 44 8b 5d 00          mov    r11d,DWORD PTR [ebp+0x0]
+67 44 8b 65 00          mov    r12d,DWORD PTR [ebp+0x0]
+67 44 8b 6d 00          mov    r13d,DWORD PTR [ebp+0x0]
+67 44 8b 75 00          mov    r14d,DWORD PTR [ebp+0x0]
+67 44 8b 7d 00          mov    r15d,DWORD PTR [ebp+0x0]
+67 45 89 00             mov    DWORD PTR [r8d],r8d
+67 45 89 01             mov    DWORD PTR [r9d],r8d
+67 45 89 02             mov    DWORD PTR [r10d],r8d
+67 45 89 03             mov    DWORD PTR [r11d],r8d
+67 45 89 04 24          mov    DWORD PTR [r12d],r8d
+67 45 89 06             mov    DWORD PTR [r14d],r8d
+67 45 89 07             mov    DWORD PTR [r15d],r8d
+67 45 89 08             mov    DWORD PTR [r8d],r9d
+67 45 89 09             mov    DWORD PTR [r9d],r9d
+67 45 89 0a             mov    DWORD PTR [r10d],r9d
+67 45 89 0b             mov    DWORD PTR [r11d],r9d
+67 45 89 0c 24          mov    DWORD PTR [r12d],r9d
+67 45 89 0e             mov    DWORD PTR [r14d],r9d
+67 45 89 0f             mov    DWORD PTR [r15d],r9d
+67 45 89 10             mov    DWORD PTR [r8d],r10d
+67 45 89 11             mov    DWORD PTR [r9d],r10d
+67 45 89 12             mov    DWORD PTR [r10d],r10d
+67 45 89 13             mov    DWORD PTR [r11d],r10d
+67 45 89 14 24          mov    DWORD PTR [r12d],r10d
+67 45 89 16             mov    DWORD PTR [r14d],r10d
+67 45 89 17             mov    DWORD PTR [r15d],r10d
+67 45 89 18             mov    DWORD PTR [r8d],r11d
+67 45 89 19             mov    DWORD PTR [r9d],r11d
+67 45 89 1a             mov    DWORD PTR [r10d],r11d
+67 45 89 1b             mov    DWORD PTR [r11d],r11d
+67 45 89 1c 24          mov    DWORD PTR [r12d],r11d
+67 45 89 1e             mov    DWORD PTR [r14d],r11d
+67 45 89 1f             mov    DWORD PTR [r15d],r11d
+67 45 89 20             mov    DWORD PTR [r8d],r12d
+67 45 89 21             mov    DWORD PTR [r9d],r12d
+67 45 89 22             mov    DWORD PTR [r10d],r12d
+67 45 89 23             mov    DWORD PTR [r11d],r12d
+67 45 89 24 24          mov    DWORD PTR [r12d],r12d
+67 45 89 26             mov    DWORD PTR [r14d],r12d
+67 45 89 27             mov    DWORD PTR [r15d],r12d
+67 45 89 28             mov    DWORD PTR [r8d],r13d
+67 45 89 29             mov    DWORD PTR [r9d],r13d
+67 45 89 2a             mov    DWORD PTR [r10d],r13d
+67 45 89 2b             mov    DWORD PTR [r11d],r13d
+67 45 89 2c 24          mov    DWORD PTR [r12d],r13d
+67 45 89 2e             mov    DWORD PTR [r14d],r13d
+67 45 89 2f             mov    DWORD PTR [r15d],r13d
+67 45 89 30             mov    DWORD PTR [r8d],r14d
+67 45 89 31             mov    DWORD PTR [r9d],r14d
+67 45 89 32             mov    DWORD PTR [r10d],r14d
+67 45 89 33             mov    DWORD PTR [r11d],r14d
+67 45 89 34 24          mov    DWORD PTR [r12d],r14d
+67 45 89 36             mov    DWORD PTR [r14d],r14d
+67 45 89 37             mov    DWORD PTR [r15d],r14d
+67 45 89 38             mov    DWORD PTR [r8d],r15d
+67 45 89 39             mov    DWORD PTR [r9d],r15d
+67 45 89 3a             mov    DWORD PTR [r10d],r15d
+67 45 89 3b             mov    DWORD PTR [r11d],r15d
+67 45 89 3c 24          mov    DWORD PTR [r12d],r15d
+67 45 89 3e             mov    DWORD PTR [r14d],r15d
+67 45 89 3f             mov    DWORD PTR [r15d],r15d
+67 45 89 45 00          mov    DWORD PTR [r13d+0x0],r8d
+67 45 89 4d 00          mov    DWORD PTR [r13d+0x0],r9d
+67 45 89 55 00          mov    DWORD PTR [r13d+0x0],r10d
+67 45 89 5d 00          mov    DWORD PTR [r13d+0x0],r11d
+67 45 89 65 00          mov    DWORD PTR [r13d+0x0],r12d
+67 45 89 6d 00          mov    DWORD PTR [r13d+0x0],r13d
+67 45 89 75 00          mov    DWORD PTR [r13d+0x0],r14d
+67 45 89 7d 00          mov    DWORD PTR [r13d+0x0],r15d
+67 45 8b 00             mov    r8d,DWORD PTR [r8d]
+67 45 8b 01             mov    r8d,DWORD PTR [r9d]
+67 45 8b 02             mov    r8d,DWORD PTR [r10d]
+67 45 8b 03             mov    r8d,DWORD PTR [r11d]
+67 45 8b 04 24          mov    r8d,DWORD PTR [r12d]
+67 45 8b 06             mov    r8d,DWORD PTR [r14d]
+67 45 8b 07             mov    r8d,DWORD PTR [r15d]
+67 45 8b 08             mov    r9d,DWORD PTR [r8d]
+67 45 8b 09             mov    r9d,DWORD PTR [r9d]
+67 45 8b 0a             mov    r9d,DWORD PTR [r10d]
+67 45 8b 0b             mov    r9d,DWORD PTR [r11d]
+67 45 8b 0c 24          mov    r9d,DWORD PTR [r12d]
+67 45 8b 0e             mov    r9d,DWORD PTR [r14d]
+67 45 8b 0f             mov    r9d,DWORD PTR [r15d]
+67 45 8b 10             mov    r10d,DWORD PTR [r8d]
+67 45 8b 11             mov    r10d,DWORD PTR [r9d]
+67 45 8b 12             mov    r10d,DWORD PTR [r10d]
+67 45 8b 13             mov    r10d,DWORD PTR [r11d]
+67 45 8b 14 24          mov    r10d,DWORD PTR [r12d]
+67 45 8b 16             mov    r10d,DWORD PTR [r14d]
+67 45 8b 17             mov    r10d,DWORD PTR [r15d]
+67 45 8b 18             mov    r11d,DWORD PTR [r8d]
+67 45 8b 19             mov    r11d,DWORD PTR [r9d]
+67 45 8b 1a             mov    r11d,DWORD PTR [r10d]
+67 45 8b 1b             mov    r11d,DWORD PTR [r11d]
+67 45 8b 1c 24          mov    r11d,DWORD PTR [r12d]
+67 45 8b 1e             mov    r11d,DWORD PTR [r14d]
+67 45 8b 1f             mov    r11d,DWORD PTR [r15d]
+67 45 8b 20             mov    r12d,DWORD PTR [r8d]
+67 45 8b 21             mov    r12d,DWORD PTR [r9d]
+67 45 8b 22             mov    r12d,DWORD PTR [r10d]
+67 45 8b 23             mov    r12d,DWORD PTR [r11d]
+67 45 8b 24 24          mov    r12d,DWORD PTR [r12d]
+67 45 8b 26             mov    r12d,DWORD PTR [r14d]
+67 45 8b 27             mov    r12d,DWORD PTR [r15d]
+67 45 8b 28             mov    r13d,DWORD PTR [r8d]
+67 45 8b 29             mov    r13d,DWORD PTR [r9d]
+67 45 8b 2a             mov    r13d,DWORD PTR [r10d]
+67 45 8b 2b             mov    r13d,DWORD PTR [r11d]
+67 45 8b 2c 24          mov    r13d,DWORD PTR [r12d]
+67 45 8b 2e             mov    r13d,DWORD PTR [r14d]
+67 45 8b 2f             mov    r13d,DWORD PTR [r15d]
+67 45 8b 30             mov    r14d,DWORD PTR [r8d]
+67 45 8b 31             mov    r14d,DWORD PTR [r9d]
+67 45 8b 32             mov    r14d,DWORD PTR [r10d]
+67 45 8b 33             mov    r14d,DWORD PTR [r11d]
+67 45 8b 34 24          mov    r14d,DWORD PTR [r12d]
+67 45 8b 36             mov    r14d,DWORD PTR [r14d]
+67 45 8b 37             mov    r14d,DWORD PTR [r15d]
+67 45 8b 38             mov    r15d,DWORD PTR [r8d]
+67 45 8b 39             mov    r15d,DWORD PTR [r9d]
+67 45 8b 3a             mov    r15d,DWORD PTR [r10d]
+67 45 8b 3b             mov    r15d,DWORD PTR [r11d]
+67 45 8b 3c 24          mov    r15d,DWORD PTR [r12d]
+67 45 8b 3e             mov    r15d,DWORD PTR [r14d]
+67 45 8b 3f             mov    r15d,DWORD PTR [r15d]
+67 45 8b 45 00          mov    r8d,DWORD PTR [r13d+0x0]
+67 45 8b 4d 00          mov    r9d,DWORD PTR [r13d+0x0]
+67 45 8b 55 00          mov    r10d,DWORD PTR [r13d+0x0]
+67 45 8b 5d 00          mov    r11d,DWORD PTR [r13d+0x0]
+67 45 8b 65 00          mov    r12d,DWORD PTR [r13d+0x0]
+67 45 8b 6d 00          mov    r13d,DWORD PTR [r13d+0x0]
+67 45 8b 75 00          mov    r14d,DWORD PTR [r13d+0x0]
+67 45 8b 7d 00          mov    r15d,DWORD PTR [r13d+0x0]
+67 89 00                mov    DWORD PTR [eax],eax
+67 89 01                mov    DWORD PTR [ecx],eax
+67 89 02                mov    DWORD PTR [edx],eax
+67 89 03                mov    DWORD PTR [ebx],eax
+67 89 04 24             mov    DWORD PTR [esp],eax
+67 89 06                mov    DWORD PTR [esi],eax
+67 89 07                mov    DWORD PTR [edi],eax
+67 89 08                mov    DWORD PTR [eax],ecx
+67 89 09                mov    DWORD PTR [ecx],ecx
+67 89 0a                mov    DWORD PTR [edx],ecx
+67 89 0b                mov    DWORD PTR [ebx],ecx
+67 89 0c 24             mov    DWORD PTR [esp],ecx
+67 89 0e                mov    DWORD PTR [esi],ecx
+67 89 0f                mov    DWORD PTR [edi],ecx
+67 89 10                mov    DWORD PTR [eax],edx
+67 89 11                mov    DWORD PTR [ecx],edx
+67 89 12                mov    DWORD PTR [edx],edx
+67 89 13                mov    DWORD PTR [ebx],edx
+67 89 14 24             mov    DWORD PTR [esp],edx
+67 89 16                mov    DWORD PTR [esi],edx
+67 89 17                mov    DWORD PTR [edi],edx
+67 89 18                mov    DWORD PTR [eax],ebx
+67 89 19                mov    DWORD PTR [ecx],ebx
+67 89 1a                mov    DWORD PTR [edx],ebx
+67 89 1b                mov    DWORD PTR [ebx],ebx
+67 89 1c 24             mov    DWORD PTR [esp],ebx
+67 89 1e                mov    DWORD PTR [esi],ebx
+67 89 1f                mov    DWORD PTR [edi],ebx
+67 89 20                mov    DWORD PTR [eax],esp
+67 89 21                mov    DWORD PTR [ecx],esp
+67 89 22                mov    DWORD PTR [edx],esp
+67 89 23                mov    DWORD PTR [ebx],esp
+67 89 24 24             mov    DWORD PTR [esp],esp
+67 89 26                mov    DWORD PTR [esi],esp
+67 89 27                mov    DWORD PTR [edi],esp
+67 89 28                mov    DWORD PTR [eax],ebp
+67 89 29                mov    DWORD PTR [ecx],ebp
+67 89 2a                mov    DWORD PTR [edx],ebp
+67 89 2b                mov    DWORD PTR [ebx],ebp
+67 89 2c 24             mov    DWORD PTR [esp],ebp
+67 89 2e                mov    DWORD PTR [esi],ebp
+67 89 2f                mov    DWORD PTR [edi],ebp
+67 89 30                mov    DWORD PTR [eax],esi
+67 89 31                mov    DWORD PTR [ecx],esi
+67 89 32                mov    DWORD PTR [edx],esi
+67 89 33                mov    DWORD PTR [ebx],esi
+67 89 34 24             mov    DWORD PTR [esp],esi
+67 89 36                mov    DWORD PTR [esi],esi
+67 89 37                mov    DWORD PTR [edi],esi
+67 89 38                mov    DWORD PTR [eax],edi
+67 89 39                mov    DWORD PTR [ecx],edi
+67 89 3a                mov    DWORD PTR [edx],edi
+67 89 3b                mov    DWORD PTR [ebx],edi
+67 89 3c 24             mov    DWORD PTR [esp],edi
+67 89 3e                mov    DWORD PTR [esi],edi
+67 89 3f                mov    DWORD PTR [edi],edi
+67 89 45 00             mov    DWORD PTR [ebp+0x0],eax
+67 89 4d 00             mov    DWORD PTR [ebp+0x0],ecx
+67 89 55 00             mov    DWORD PTR [ebp+0x0],edx
+67 89 5d 00             mov    DWORD PTR [ebp+0x0],ebx
+67 89 65 00             mov    DWORD PTR [ebp+0x0],esp
+67 89 6d 00             mov    DWORD PTR [ebp+0x0],ebp
+67 89 75 00             mov    DWORD PTR [ebp+0x0],esi
+67 89 7d 00             mov    DWORD PTR [ebp+0x0],edi
+67 8b 00                mov    eax,DWORD PTR [eax]
+67 8b 01                mov    eax,DWORD PTR [ecx]
+67 8b 02                mov    eax,DWORD PTR [edx]
+67 8b 03                mov    eax,DWORD PTR [ebx]
+67 8b 04 24             mov    eax,DWORD PTR [esp]
+67 8b 06                mov    eax,DWORD PTR [esi]
+67 8b 07                mov    eax,DWORD PTR [edi]
+67 8b 08                mov    ecx,DWORD PTR [eax]
+67 8b 09                mov    ecx,DWORD PTR [ecx]
+67 8b 0a                mov    ecx,DWORD PTR [edx]
+67 8b 0b                mov    ecx,DWORD PTR [ebx]
+67 8b 0c 24             mov    ecx,DWORD PTR [esp]
+67 8b 0e                mov    ecx,DWORD PTR [esi]
+67 8b 0f                mov    ecx,DWORD PTR [edi]
+67 8b 10                mov    edx,DWORD PTR [eax]
+67 8b 11                mov    edx,DWORD PTR [ecx]
+67 8b 12                mov    edx,DWORD PTR [edx]
+67 8b 13                mov    edx,DWORD PTR [ebx]
+67 8b 14 24             mov    edx,DWORD PTR [esp]
+67 8b 16                mov    edx,DWORD PTR [esi]
+67 8b 17                mov    edx,DWORD PTR [edi]
+67 8b 18                mov    ebx,DWORD PTR [eax]
+67 8b 19                mov    ebx,DWORD PTR [ecx]
+67 8b 1a                mov    ebx,DWORD PTR [edx]
+67 8b 1b                mov    ebx,DWORD PTR [ebx]
+67 8b 1c 24             mov    ebx,DWORD PTR [esp]
+67 8b 1e                mov    ebx,DWORD PTR [esi]
+67 8b 1f                mov    ebx,DWORD PTR [edi]
+67 8b 20                mov    esp,DWORD PTR [eax]
+67 8b 21                mov    esp,DWORD PTR [ecx]
+67 8b 22                mov    esp,DWORD PTR [edx]
+67 8b 23                mov    esp,DWORD PTR [ebx]
+67 8b 24 24             mov    esp,DWORD PTR [esp]
+67 8b 26                mov    esp,DWORD PTR [esi]
+67 8b 27                mov    esp,DWORD PTR [edi]
+67 8b 28                mov    ebp,DWORD PTR [eax]
+67 8b 29                mov    ebp,DWORD PTR [ecx]
+67 8b 2a                mov    ebp,DWORD PTR [edx]
+67 8b 2b                mov    ebp,DWORD PTR [ebx]
+67 8b 2c 24             mov    ebp,DWORD PTR [esp]
+67 8b 2e                mov    ebp,DWORD PTR [esi]
+67 8b 2f                mov    ebp,DWORD PTR [edi]
+67 8b 30                mov    esi,DWORD PTR [eax]
+67 8b 31                mov    esi,DWORD PTR [ecx]
+67 8b 32                mov    esi,DWORD PTR [edx]
+67 8b 33                mov    esi,DWORD PTR [ebx]
+67 8b 34 24             mov    esi,DWORD PTR [esp]
+67 8b 36                mov    esi,DWORD PTR [esi]
+67 8b 37                mov    esi,DWORD PTR [edi]
+67 8b 38                mov    edi,DWORD PTR [eax]
+67 8b 39                mov    edi,DWORD PTR [ecx]
+67 8b 3a                mov    edi,DWORD PTR [edx]
+67 8b 3b                mov    edi,DWORD PTR [ebx]
+67 8b 3c 24             mov    edi,DWORD PTR [esp]
+67 8b 3e                mov    edi,DWORD PTR [esi]
+67 8b 3f                mov    edi,DWORD PTR [edi]
+67 8b 45 00             mov    eax,DWORD PTR [ebp+0x0]
+67 8b 4d 00             mov    ecx,DWORD PTR [ebp+0x0]
+67 8b 55 00             mov    edx,DWORD PTR [ebp+0x0]
+67 8b 5d 00             mov    ebx,DWORD PTR [ebp+0x0]
+67 8b 65 00             mov    esp,DWORD PTR [ebp+0x0]
+67 8b 6d 00             mov    ebp,DWORD PTR [ebp+0x0]
+67 8b 75 00             mov    esi,DWORD PTR [ebp+0x0]
+67 8b 7d 00             mov    edi,DWORD PTR [ebp+0x0]
+89 c0                   mov    eax,eax
+89 c1                   mov    ecx,eax
+89 c2                   mov    edx,eax
+89 c3                   mov    ebx,eax
+89 c4                   mov    esp,eax
+89 c5                   mov    ebp,eax
+89 c6                   mov    esi,eax
+89 c7                   mov    edi,eax
+89 c8                   mov    eax,ecx
+89 c9                   mov    ecx,ecx
+89 ca                   mov    edx,ecx
+89 cb                   mov    ebx,ecx
+89 cc                   mov    esp,ecx
+89 cd                   mov    ebp,ecx
+89 ce                   mov    esi,ecx
+89 cf                   mov    edi,ecx
+89 d0                   mov    eax,edx
+89 d1                   mov    ecx,edx
+89 d2                   mov    edx,edx
+89 d3                   mov    ebx,edx
+89 d4                   mov    esp,edx
+89 d5                   mov    ebp,edx
+89 d6                   mov    esi,edx
+89 d7                   mov    edi,edx
+89 d8                   mov    eax,ebx
+89 d9                   mov    ecx,ebx
+89 da                   mov    edx,ebx
+89 db                   mov    ebx,ebx
+89 dc                   mov    esp,ebx
+89 dd                   mov    ebp,ebx
+89 de                   mov    esi,ebx
+89 df                   mov    edi,ebx
+89 e0                   mov    eax,esp
+89 e1                   mov    ecx,esp
+89 e2                   mov    edx,esp
+89 e3                   mov    ebx,esp
+89 e4                   mov    esp,esp
+89 e5                   mov    ebp,esp
+89 e6                   mov    esi,esp
+89 e7                   mov    edi,esp
+89 e8                   mov    eax,ebp
+89 e9                   mov    ecx,ebp
+89 ea                   mov    edx,ebp
+89 eb                   mov    ebx,ebp
+89 ec                   mov    esp,ebp
+89 ed                   mov    ebp,ebp
+89 ee                   mov    esi,ebp
+89 ef                   mov    edi,ebp
+89 f0                   mov    eax,esi
+89 f1                   mov    ecx,esi
+89 f2                   mov    edx,esi
+89 f3                   mov    ebx,esi
+89 f4                   mov    esp,esi
+89 f5                   mov    ebp,esi
+89 f6                   mov    esi,esi
+89 f7                   mov    edi,esi
+89 f8                   mov    eax,edi
+89 f9                   mov    ecx,edi
+89 fa                   mov    edx,edi
+89 fb                   mov    ebx,edi
+89 fc                   mov    esp,edi
+89 fd                   mov    ebp,edi
+89 fe                   mov    esi,edi
+89 ff                   mov    edi,edi
+b8 0a 00 00 00          mov    eax,0xa
+b9 0a 00 00 00          mov    ecx,0xa
+ba 0a 00 00 00          mov    edx,0xa
+bb 0a 00 00 00          mov    ebx,0xa
+bc 0a 00 00 00          mov    esp,0xa
+bd 0a 00 00 00          mov    ebp,0xa
+be 0a 00 00 00          mov    esi,0xa
+bf 0a 00 00 00          mov    edi,0xa
+c1 e0 0a                shl    eax,0xa
+c1 e1 0a                shl    ecx,0xa
+c1 e2 0a                shl    edx,0xa
+c1 e3 0a                shl    ebx,0xa
+c1 e4 0a                shl    esp,0xa
+c1 e5 0a                shl    ebp,0xa
+c1 e6 0a                shl    esi,0xa
+c1 e7 0a                shl    edi,0xa
+c1 e8 0a                shr    eax,0xa
+c1 e9 0a                shr    ecx,0xa
+c1 ea 0a                shr    edx,0xa
+c1 eb 0a                shr    ebx,0xa
+c1 ec 0a                shr    esp,0xa
+c1 ed 0a                shr    ebp,0xa
+c1 ee 0a                shr    esi,0xa
+c1 ef 0a                shr    edi,0xa
+e9 00 00 00 00          jmp    0x115f 
