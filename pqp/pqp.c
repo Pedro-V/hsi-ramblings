@@ -7,10 +7,12 @@
 uint8_t memory[MEM_SIZE];
 
 #define REGS_SIZE 16
-uint32_t regs[REGS_SIZE];
-
-#define CFLAGS_SIZE 3 // cflags = [G, L, E, -]
-uint8_t cflags[CFLAGS_SIZE], pc;
+char *regs[REGS_SIZE] = {
+    "eax", "ecx", "edx", "ebx",
+    "esp", "ebp", "esi", "edi",
+    "r8d", "r9d", "r10d", "r11d",
+    "r12d", "r13d", "r14d", "r15d"
+}
 
 void read_code(uint8_t *op, uint8_t *r1, uint8_t r2, uint16_t *integer) {
     uint8_t register_byte, i1, i2;
@@ -18,13 +20,6 @@ void read_code(uint8_t *op, uint8_t *r1, uint8_t r2, uint16_t *integer) {
     *r1 = register_byte >> 4;
     *r2 = register_byte & 0x0f;
     *integer = ((uint16_t)firstValue << 8) | (uint16_t)secondValue;
-}
-
-void set_cflags(uint8_t r1, uint8_t r2) {
-    uint8_t x = regs[r1] - regs[r2];
-    if (x > 0) cflags[0] = 1;
-    else if (x == 0) cflags[1] = 1;
-    else cflags[2] = 1;
 }
 
 uint8_t getUpper4Bits(uint8_t value) {
@@ -46,87 +41,106 @@ uint8_t getLowerByte(uint16_t value) {
 
 /* Templates */ 
 
-void update_template(uint8_t new_instruction[], uint8_t new_limit) {
-    limit = new_limit;
-    for (size_t i = 0; i < limit; i++) {
-        instruction[i] = new_instruction[i];
-    }
-}
+/*
+ * on this context:
+ * - G1 refers to the group of registers pre-64-bits
+ * - G2 refers to the group of registers post-64-bits
+ */
 
 #define MAX_INSTRUCTION_SIZE 6
-uint8_t instruction[MAX_INSTRUCTION_SIZE];
+uint8_t template[MAX_INSTRUCTION_SIZE];
+// limit on the template's usable size
+// depends on current instruction size in bytes
 uint8_t limit;
 
-void template_0x0 (uint8_t r_index, uint16_t val) {
-    uint8_t new_limit, template[n];
-    if (r_index < 8) {
-        new_limit = 5, new_instruction[limit] = {
-
-        };
-    }
-    else if (r_index < 16) 
+// frequently needed for treating G1 operands different from G2
+uint8_t calc_operand(uint8_t c, uint8_t a, uint8_t r1, uint8_t b, uint8_t r2) {
+    return c + a * (r1 < 8 ? r1 : r1 % 8) + b * (r2 < 8 ? r2 : r2 % 8);
 }
 
-void interpret(void) {
-    uint8_t op, r1, r2;
-    uint16_t integer;
-    while (feof(input)) {
-        read_code(&op, &r1, &r2, &integer);
-        switch (op) {
-            case 0x0: // mov r1, integer
-                regs[r1] = integer;
-                break;
-            case 0x1: // mov r1, r2
-                regs[r1] = regs[r2];
-                break;
-            case 0x2: // mov r1, [r2]
-                regs[r1] = memory[r2];
-                break;
-            case 0x3: // mov [r1], r2
-                memory[r1] = r2;
-                break;
-            case 0x4: // cmp r1, r2
-                set_cflags();
-                break;
-            case 0x5: // jmp integer
-                pc 
-                break;
-            case 0x6: // jg integer
-                regs;
-                break;
-            case 0x7: // jl integer
-                regs;
-                break;
-            case 0x8: // je integer
-                regs;
-                break;
-            case 0x9: // add r1, r2
-                regs;
-                break;
-            case 0xa: // sub r1, r2
-                regs;
-                break;
-            case 0xb: // and r1, r2
-                regs;
-                break;
-            case 0xc: // or r1, r2
-                regs;
-                break;
-            case 0xd: // xor r1, r2
-                regs;
-                break;
-            case 0xe: // shl r1, integer
-                regs;
-                break;
-            case 0xf  // shr r1, integer
-                regs;
-                break;
-            case default:
-                fprint(stdout, "instruction not supported");
-                break;
-        }
-    }
+/*
+ * table of output value
+ * ----------------------------------
+ * r1's G \ r2's G | 1      | 2     |
+ *              1  | p1     | p2    |
+ *              2  | p3     | p4    |
+ */
+uint8_t calc_param(uint8_t r1, uint8_t r2, uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4) {
+    if (r1 < 8 && r2 < 8) return  p1;
+    if (r1 < 8 && r2 >= 8) return p2;
+    if (r1 >= 8 && r2 < 8) return p3;
+    if (r1 >= 8 && r2 >= 8) return p4;
 }
+
+// similar to its more general counterpart
+uint8_t calc_param_s(uint8_t r, uint8_t p1, uint8_t p2) {
+    if (r1 < 8) return p1;
+    return p2;
+}
+
+// mov rx, i16
+void template_0x0 (uint8_t r, uint16_t val) {
+    limit = calc_param_s(r, 5, 6);
+    uint8_t bU = getUpperByte(val), bL = getLowerByte(val);
+    uint8_t operand = calc_operand(0xb8, 1, r, 0, 0);
+    template[0] = calc_param_s(r, operand, 0x41);
+    template[1] = calc_param_s(r, bL, operand);
+    template[2] = calc_param_s(r, bU, bL);
+    template[3] = calc_param_s(r, 0x00, bU);
+    template[4] = calc_param_s(r, 0x00, 0x00);
+    template[5] = 0x00; // finished 5-sized
+}
+
+// mov rx, ry
+void template_0x1 (uint8_t r1, uint8_t r2) {
+    limit = calc_param(r1, r2, 2, 3, 3, 3);
+    uint8_t operand = calc_operand(0xc0, 1, r1, 8, r2);
+    template[0] = calc_param(r1, r2, 0x89, 0x44, 0x41, 0x45);
+    template[1] = calc_param(r1, r2, operand, 0x89, 0x89, 0x89);
+    template[2] = operand; // finished 2-sized mov
+}
+
+// mov rx, [ry]
+void template_0x2 (uint8_t r1, uint8_t r2) {
+    register uint32_t r2_reg asm(regs[r2]);
+    template_0x0(r2, (uint16_t)MEM[r2_reg]);
+    exec_template();
+    template_0x1(r1, r2);
+    /*
+    limit = calc_param(r1, r2, 3, 4, 4, 4);
+    uint8_t operand = calc_operand(0x00, 8, r1, 1, r2);
+    template[0] = 0x67;
+    template[1] = calc_param(r1, r2, 0x8b, 0x41, 0x44, 0x45);
+    template[2] = calc_param(r1, r2, operand, 0x8b, 0x8b, 0x8b);
+    template[3] = operand; // finished 3-sized mov
+    if (r2 == 5 || r2 == 13) { // ebp and r13d are special
+        limit = 3 + r2 == 13;
+        template[limit - 1] += 64; 
+        template[limit] = 0x00;
+    }
+    if (r2 == 4 || r2 == 12) { // so are esp and r12d
+        limit = 3 + r2 == 12;
+        template[limit] = 24;
+    }
+    */
+}
+
+// mov [rx], ry
+void template_0x3 (uint8_t r1, uint8_t r2) {
+    register uint32_t r2_reg asm(regs[r2]), r1_reg asm(regs[r1]);
+    MEM[r1_reg] = r2_reg;
+}
+
+// cmp rx, ry
+void template_0x4 (uint8_t r1, uint8_t r2) {
+    limit = calc_param(r1, r2, 2, 3, 3, 3);
+    uint8_t operand = calc_operand(0xc0, 1, r1, 8, r2);
+    template[0] = calc_param(r1, r2, 0x39, 0x44, 0x41, 0x45);
+    template[1] = calc_param(r1, r2, operand, 0x39, 0x39, 0x39);
+    template[2] = operand;
+}
+
+// void template_0x5 (uint8
 
 void print_instruction_count(void) {};
 void print_register_state(void) {};
