@@ -7,12 +7,7 @@
 uint8_t memory[MEM_SIZE];
 
 #define REGS_SIZE 16
-char *regs[REGS_SIZE] = {
-    "eax", "ecx", "edx", "ebx",
-    "esp", "ebp", "esi", "edi",
-    "r8d", "r9d", "r10d", "r11d",
-    "r12d", "r13d", "r14d", "r15d"
-}
+uint32_t regs[REGS_SIZE];
 
 void read_code(uint8_t *op, uint8_t *r1, uint8_t r2, uint16_t *integer) {
     uint8_t register_byte, i1, i2;
@@ -78,26 +73,28 @@ uint8_t calc_param_s(uint8_t r, uint8_t p1, uint8_t p2) {
     return p2;
 }
 
+void bytes_array(const void *src, uint8_t *dst, size_t dst_len) {
+    for (uint8_t i = 0; i < dst_len; i++) {
+        dst[i] = (size_t)src >> (8 * i) & 0xff;
+    }
+}
+
 // mov rx, i16
-void template_0x0 (uint8_t r, uint16_t val) {
-    limit = calc_param_s(r, 5, 6);
-    uint8_t bU = getUpperByte(val), bL = getLowerByte(val);
-    uint8_t operand = calc_operand(0xb8, 1, r, 0, 0);
-    template[0] = calc_param_s(r, operand, 0x41);
-    template[1] = calc_param_s(r, bL, operand);
-    template[2] = calc_param_s(r, bU, bL);
-    template[3] = calc_param_s(r, 0x00, bU);
-    template[4] = calc_param_s(r, 0x00, 0x00);
-    template[5] = 0x00; // finished 5-sized
+void template_0x0 (uint8_t rx, int16_t i16) {
+    uint8_t val[2], addr[8];
+    bytes_array(&(regs[rx]), addr, 8);
+    bytes_array((void *)i16, val, 2);
+    uint8_t template[] = {
+        0x48, 0xc7, 0xc3, val[0], val[1], 0x00, 0x00 // mov rbx, i16
+        0x48, 0xb8, addr[0], addr[1], addr[2],       // mov rax, &(regs[rx])
+        addr[3], addr[4], addr[5], addr[6], addr[7], 
+        0x48, 0x89, 0x18                             // mov QWORD PTR [rax], rbx
+    };
 }
 
 // mov rx, ry
 void template_0x1 (uint8_t r1, uint8_t r2) {
-    limit = calc_param(r1, r2, 2, 3, 3, 3);
-    uint8_t operand = calc_operand(0xc0, 1, r1, 8, r2);
-    template[0] = calc_param(r1, r2, 0x89, 0x44, 0x41, 0x45);
-    template[1] = calc_param(r1, r2, operand, 0x89, 0x89, 0x89);
-    template[2] = operand; // finished 2-sized mov
+    uint8_t val_r1[4], 
 }
 
 // mov rx, [ry]
