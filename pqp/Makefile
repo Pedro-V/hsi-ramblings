@@ -1,7 +1,9 @@
+CXX := g++
+CXX_FLAGS := -Wall -O3 -g
 PROJECT := pqp
 
-$(PROJECT).bin: $(PROJECT).c
-	gcc -g -Wall -o $(PROJECT).bin $(PROJECT).c
+$(PROJECT).bin: $(PROJECT).cpp
+	$(CXX) $(CXX_FLAGS) -o $(PROJECT).bin $(PROJECT).cpp
 
 run: $(PROJECT).bin
 	./$(PROJECT).bin $(PROJECT).input $(PROJECT).output
