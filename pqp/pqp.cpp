@@ -5,45 +5,50 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+FILE *input, *output;
 using namespace std;
 using Program = vector<uint8_t>;
 
 #define MEM_SIZE 128
-vector<uint8_t> MEM(MEM_SIZE);
+vector<uint8_t> MEM(MEM_SIZE, 0);
 #define REGS_SIZE 16
-vector<int32_t> regs(REGS_SIZE);
+vector<int32_t> regs(REGS_SIZE, 0);
 #define INSTRUCTIONS_SIZE 16
 vector<uint32_t> instruction_usage(INSTRUCTIONS_SIZE, 0);
 #define INSTRUCTION_PADDING 4
-vector<bool> instruction_translated(MEM_SIZE / INSTRUCTION_PADDING);
+vector<bool> instruction_translated(MEM_SIZE / INSTRUCTION_PADDING, false);
 Program code;
 
 // TEMPLATES HELPERS
 
-void emit_byte(uint8_t x) {
-    code.push_back(x);
+void emit_byte(uint8_t x, int32_t idx) {
+    if (idx == -1)
+        code.push_back(x);
+    else
+        code[idx] = x;
 }
 
-void emit_bytes(initializer_list<uint8_t> seq) {
+void emit_bytes(initializer_list<uint8_t> seq, int32_t idx) {
   for (auto v : seq) {
     emit_byte(v);
   }
 }
 
-void emit_5_bits(uint32_t x) {
-    emit_byte(x & 0b11111);
+void emit_5_bits(uint32_t x, int32_t idx) {
+    emit_byte(x & 0b11111, idx);
 }
 
-void emit_32_bits(uint32_t x) {
-    emit_byte(x & 0xff);
-    emit_byte(x >> 8 & 0xff);
-    emit_byte(x >> 16 & 0xff);
-    emit_byte(x >> 24 & 0xff);
+# define idx_handler(n) idx == -1 ? -1 : idx + n
+
+void emit_32_bits(uint32_t x, int32_t idx) {
+    uint8_t c = idx == -1;
+    for (size_t i = 0; i < 4; i++)
+        emit_byte(x >> (i * 8) & 0xff, idx_handler(i));
 }
 
-void emit_64_bits(uint64_t x) {
-    emit_32_bits(x & 0xffffffff);
-    emit_32_bits(x >> 32 & 0xffffffff);
+void emit_64_bits(uint64_t x, int32_t idx) {
+    emit_32_bits(x & 0xffffffff, idx_handler(0));
+    emit_32_bits(x >> 32 & 0xffffffff, idx_handler(4));
 }
 
 void emit_nop(uint8_t nop_size) {
@@ -151,7 +156,7 @@ void template_0x1(void *rx, void *ry) {
 void template_0x2(void *rx, void *ry) {
     mov_both(rx, ry);
     emit_bytes({0x48, 0xba});   // mov rdx, MEM
-    emit_64_bits((uint64_t)MEM);
+    emit_64_bits((uint64_t)MEM.data());
 
     emit_bytes({0x8b, 0x09});   // mov ecx, DWORD PTR [rcx]
     emit_bytes({0x8b, 0x0c, 0x0a}); // mov ecx, DWORD PTR [rdx + rcx]
@@ -165,7 +170,7 @@ void template_0x2(void *rx, void *ry) {
 void template_0x3(void *rx, void *ry) {
     mov_both(rx, ry);
     emit_bytes({0x48, 0xba});   // mov rdx, MEM
-    emit_64_bits((uint64_t)MEM);
+    emit_64_bits((uint64_t)MEM.data());
 
     emit_bytes({0x8b, 0x09});   // mov ecx, DWORD PTR [rcx]
     emit_bytes({0x8b, 0x00});   // mov eax, DWORD PTR [rax]
@@ -271,7 +276,7 @@ void template_0xd(void *rx, void *ry) {
 void template_0xe(void *rx, int32_t x) {
     emit_bytes({0x48, 0xb8});   // mov rax, rx
     emit_64_bits((uint64_t)rx);
-    emit_bytes{(0x8b, 0x08});   // mov ecx, DWORD PTR [rax]
+    emit_bytes({0x8b, 0x08});   // mov ecx, DWORD PTR [rax]
     emit_bytes({0xc1, 0xe1});   // shl ecx, x
     emit_5_bits(x);
     emit_bytes({0x89, 0x08});   // mov DWORD PTR [rax], ecx
@@ -281,64 +286,71 @@ void template_0xe(void *rx, int32_t x) {
 void template_0xf(void *rx, int32_t x) {
     emit_bytes({0x48, 0xb8});   // mov rax, rx
     emit_64_bits((uint64_t)rx);
-    emit_bytes{(0x8b, 0x08});   // mov ecx, DWORD PTR [rax]
+    emit_bytes({0x8b, 0x08});   // mov ecx, DWORD PTR [rax]
     emit_bytes({0xc1, 0xf9});   // sar ecx, x
     emit_5_bits(x);
     emit_bytes({0x89, 0x08});   // mov DWORD PTR [rax], ecx
 }
 
 void parse_instruction(
-        const Program &program,
-        size_t pc,
+        uint32_t pc,
         int8_t *instruction,
         int32_t *rx,
         int32_t *ry,
         int32_t *i16
     ) {
-   *instruction = program[pc];
-   *rx = program[pc + 1] & 0xff;
-   *ry = program[pc + 1] >> 4 & 0xff;
-   *i16 = (int16_t)program[pc + 2];
+   *instruction = MEM[pc];
+   *rx = MEM[pc + 1] >> 4;
+   *ry = MEM[pc + 1] & 0x0f;
+   *i16 = (int32_t)*(int16_t *)(&MEM[pc + 2]);
 }
 
-void translate(Program &program) {
-    size_t pc = 0;
+void code_startup(void) {
+    for (size_t i = 0; i < MEM_SIZE / INSTRUCTION_PADDING; i++) {
+        emit_bytes({0x48, 0xc7});   // mov rax, i
+        emit_32_bits((int32_t)i);
+    }
+}
+
+void translate(void) {
+    uint32_t pc = 0;
     int8_t instruction;
     int32_t rx, ry, i16;
     uint8_t cond = 0b000;
     while (pc >= 0 && pc < MEM_SIZE) {
-        parse_instruction(program, pc, &instruction, &rx, &ry, &i16);
+        parse_instruction(pc, &instruction, &rx, &ry, &i16);
         instruction_usage[instruction] += 1;
-        if (instruction_translated[instruction]) {
+        if (instruction_translated[pc / 4]) {
             pc += 4;
             continue;
         }
-        fprint(output, "%08X->", pc);
+        instruction_translated[pc / 4] = true;
+        fprintf(output, "0x%08X->", pc);
         switch (instruction) {
             case 0x0:
                 regs[rx] = i16;
-                fprintf(output, "MOV R%d=%08X\n", rx, i16);
+                fprintf(output, "MOV R%d=0x%08X\n", rx, i16);
                 template_0x0(&(regs[rx]), i16);
                 break;
             case 0x1:
                 regs[rx] = regs[ry];
-                fprintf(output, "MOV R%d=R%d=%08X\n", rx, ry, regs);
+                fprintf(output, "MOV R%d=R%d=0x%08X\n", rx, ry, regs[ry]);
                 template_0x1(&(regs[rx]), &(regs[ry]));
                 break;
             case 0x2:
-                regs[rx] = MEM[regs[ry]];
+                regs[rx] = *(int32_t *)(&MEM[regs[ry]]);
                 fprintf(
                     output, 
-                    "MOV R%d=MEM[%02X, %02X, %02X, %02X]=[%02X, %02X, %02X, %02X]\n",
+                    "MOV R%d=MEM[0x%02X,0x%02X,0x%02X,0x%02X]=[0x%02X,0x%02X,0x%02X,0x%02X]\n",
                     rx,
                     regs[ry],
                     regs[ry] + 1,
                     regs[ry] + 2,
                     regs[ry] + 3,
                     MEM[regs[ry]],
-                    MEM[regs[ry]] + 1,
-                    MEM[regs[ry]] + 2,
-                    MEM[regs[ry]] + 3
+                    MEM[regs[ry] + 1],
+                    MEM[regs[ry] + 2],
+                    MEM[regs[ry] + 3]
                 );
                 template_0x2(&(regs[rx]), &(regs[ry]));
                 break;
@@ -346,16 +358,16 @@ void translate(Program &program) {
                 MEM[regs[rx]] = regs[ry];
                 fprintf(
                     output,
-                    "MOV MEM[%02X, %02X, %02X, %02X]=R%d=[%02X, %02X, %02X, %02X]\n",
+                    "MOV MEM[0x%02X,0x%02X,0x%02X,0x%02X]=R%d=[0x%02X,0x%02X,0x%02X,0x%02X]\n",
                     regs[rx],
                     regs[rx] + 1,
                     regs[rx] + 2,
                     regs[rx] + 3,
                     ry,
-                    MEM[regs[ry]],
-                    MEM[regs[ry]] + 1,
-                    MEM[regs[ry]] + 2,
-                    MEM[regs[ry]] + 3
+                    regs[ry],
+                    regs[ry] >> 2,
+                    regs[ry] >> 4,
+                    regs[ry] >> 6
                 );
                 template_0x3(&(regs[rx]), &(regs[ry]));
                 break;
@@ -372,9 +384,9 @@ void translate(Program &program) {
                     "CMP R%d<=>R%d(G=%d,L=%d,E=%d)\n",
                     rx,
                     ry,
-                    cond & 0b100,
-                    cond & 0b010,
-                    cond & 0b001
+                    (cond & 0b100) >> 2,
+                    (cond & 0b010) >> 1,
+                    (cond & 0b001)
                 );
                 template_0x4(&(regs[rx]), &(regs[ry]));
                 break;
@@ -382,120 +394,129 @@ void translate(Program &program) {
                 pc += i16;
                 fprintf(
                     output,
-                    "JMP %08X\n",
+                    "JMP 0x%08X\n",
                     pc + INSTRUCTION_PADDING
                 );
                 template_0x5(i16);
                 break;
             case 0x6:
-                pc += cond == 0b100 ? i16 : 0;
                 fprintf(
                     output,
-                    "JG %08X\n",
-                    pc + INSTRUCTION_PADDING
+                    "JG 0x%08X\n",
+                    pc + INSTRUCTION_PADDING + i16
                 );
+                pc += cond == 0b100 ? i16 : 0;
                 template_0x6(i16);
                 break;
             case 0x7:
-                pc += cond == 0b010 ? i16 : 0;
                 fprintf(
                     output,
-                    "JL %08X\n",
-                    pc + INSTRUCTION_PADDING
+                    "JL 0x%08X\n",
+                    pc + INSTRUCTION_PADDING + i16
                 );
+                pc += cond == 0b010 ? i16 : 0;
                 template_0x7(i16);
                 break;
             case 0x8:
-                pc += cond == 0b001 ? i16 : 0;
                 fprintf(
                     output,
-                    "JE %08X\n",
-                    pc + INSTRUCTION_PADDING
+                    "JE 0x%08X\n",
+                    pc + INSTRUCTION_PADDING + i16
                 );
+                pc += cond == 0b001 ? i16 : 0;
                 template_0x8(i16);
                 break;
             case 0x9:
                 fprintf(
                     output,
-                    "ADD R%d+=R%d=%08X+%08X=%08X\n",
+                    "ADD R%d+=R%d=0x%08X+0x%08X=0x%08X\n",
                     rx,
                     ry,
                     regs[rx],
                     regs[ry],
-                    regs[rx] += regs[ry]
+                    regs[rx] + regs[ry]
                 );
+                regs[rx] += regs[ry];
                 template_0x9(&(regs[rx]), &(regs[ry]));
                 break;
             case 0xa:
                 fprintf(
                     output,
-                    "SUB R%d-=R%d=%08X-%08X=%08X\n",
+                    "SUB R%d-=R%d=0x%08X-0x%08X=0x%08X\n",
                     rx,
                     ry,
                     regs[rx],
                     regs[ry],
-                    regs[rx] -= regs[ry]
+                    regs[rx] - regs[ry]
                 );
+                regs[rx] -= regs[ry];
                 template_0xa(&(regs[rx]), &(regs[ry]));
                 break;
             case 0xb:
                 fprintf(
                     output,
-                    "AND R%d&=R%d=%08X&%08X=%08X\n",
+                    "AND R%d&=R%d=0x%08X&0x%08X=0x%08X\n",
                     rx,
                     ry,
                     regs[rx],
                     regs[ry],
-                    regs[rx] &= regs[ry]
+                    regs[rx] & regs[ry]
                 );
+                regs[rx] &= regs[ry];
                 template_0xb(&(regs[rx]), &(regs[ry]));
                 break;
             case 0xc:
                 fprintf(
                     output,
-                    "OR R%d|=R%d=%08X|%08X=%08X\n",
+                    "OR R%d|=R%d=0x%08X|0x%08X=0x%08X\n",
                     rx,
                     ry,
                     regs[rx],
                     regs[ry],
-                    regs[rx] |= regs[ry]
+                    regs[rx] | regs[ry]
                 );
+                regs[rx] |= regs[ry];
                 template_0xc(&(regs[rx]), &(regs[ry]));
                 break;
             case 0xd:
                 fprintf(
                     output,
-                    "XOR R%d^=R%d=%08X^%08X=%08X\n",
+                    "XOR R%d^=R%d=0x%08X^0x%08X=0x%08X\n",
                     rx,
                     ry,
                     regs[rx],
                     regs[ry],
-                    regs[rx] ^= regs[ry]
+                    regs[rx] ^ regs[ry]
                 );
+                regs[rx] ^= regs[ry];
                 template_0xd(&(regs[rx]), &(regs[ry]));
                 break;
             case 0xe:
+                i16 >>= 8;
                 fprintf(
                     output,
-                    "SAL R%d<<=%d=%08X<<%d=%08X\n",
+                    "SAL R%d<<=%d=0x%08X<<%d=0x%08X\n",
                     rx,
                     i16,
                     regs[rx],
                     i16,
-                    regs[rx] <<= i16
+                    regs[rx] << i16
                 );
+                regs[rx] <<= i16;
                 template_0xe(&(regs[rx]), i16);
                 break;
             case 0xf:
+                i16 >>= 8;
                 fprintf(
                     output,
-                    "SAR R%d>>=%d=%08X>>%d=%08X\n",
+                    "SAR R%d>>=%d=0x%08X>>%d=0x%08X\n",
                     rx,
-                    ry,
+                    i16,
                     regs[rx],
                     i16,
-                    regs[rx] >>= i16
+                    regs[rx] >> i16
                 );
+                regs[rx] >>= i16;
                 template_0xf(&(regs[rx]), i16);
                 break;
             default:
@@ -503,37 +524,39 @@ void translate(Program &program) {
         }
         pc += INSTRUCTION_PADDING;
     }
-    fprintf(output, "%08X->EXIT\n", pc);
+    fprintf(output, "0x%08X->EXIT\n", pc);
 }
 
 void print_instruction_usage(void) {
     fprintf(output, "[");
     for (size_t i = 0; i < INSTRUCTIONS_SIZE; i++) {
-        fprintf(output, "%02X:%d", i, instruction_usage[i]);
+        fprintf(output, "%02lX:%d%s", 
+                i,
+                instruction_usage[i],
+                i == INSTRUCTIONS_SIZE - 1 ? "" : ",");
     }
-    fprint(output, "]\n");
+    fprintf(output, "]\n");
 }
 
 void print_regs_state(void) {
     fprintf(output, "[");
     for (size_t i = 0; i < REGS_SIZE; i++) {
-        fprintf(output, "R%d:%08X", i, regs[i]);
+        fprintf(output, "R%ld=0x%08X%s",
+                i,
+                regs[i],
+                i == REGS_SIZE - 1 ? "" : "|");
     }
-    fprint(output, "]\n");
+    fprintf(output, "]\n");
 }
 
-FILE *input, *output;
 int main(int argc, char **argv) {
     input = fopen(argv[1], "r");
     if (input == 0) exit(EXIT_FAILURE);
     output = fopen(argv[2], "w");
-    Program program;
-    uint8_t byte;
-    while (!feof(input)) {
-        byte = fgetc(input);
-        program.push_back(byte);
+    for (size_t i = 0; i < MEM_SIZE; i++) {
+        fscanf(input, "%hhx ", &MEM[i]);
     }
-    translate(program);
+    translate();
     print_instruction_usage();
     print_regs_state();
     fclose(input);

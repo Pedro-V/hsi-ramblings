@@ -1,5 +1,5 @@
 CXX := g++
-CXX_FLAGS := -Wall -O3 -g
+CXX_FLAGS := -Wall -g
 PROJECT := pqp
 
 $(PROJECT).bin: $(PROJECT).cpp
