@@ -10,4 +10,4 @@ run: $(PROJECT).bin
 	cat $(PROJECT).output
 
 clean:
-	rm -rf *.bin
+	rm -rf *.bin *.o

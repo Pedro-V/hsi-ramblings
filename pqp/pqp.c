@@ -20,7 +20,7 @@ int32_t regs[N_REGS];
 // if translated[i] => the i-th instruction has been translated
 uint8_t translated[N_INSTRUCTIONS];
 // usage[i] => number of times i-th template has been executed
-uint32_t template_usage[N_TEMPLATES];
+uint64_t template_usage[N_TEMPLATES];
 // holds translated bytes before each translation
 int8_t code[X86_PADDING];
 // pointer to last byte we wrote in code
@@ -70,6 +70,9 @@ void emit_64_bits(int64_t i64) {
 
 void emit_nop(uint8_t nop_size) {
     switch (nop_size) {
+        case 1:
+            // nop
+            emit_byte(0x90);
         case 2:
             // 66 nop
             emit_bytes(2, 0x66, 0x90);
@@ -109,8 +112,12 @@ void emit_nop(uint8_t nop_size) {
 
 void emit_padding(void) {
     // assumes (X86_PADDING - p_code) >= base_nop_size
-    uint8_t limit, base_nop_size = 5;
-    uint8_t to_pad = X86_PADDING - p_code;
+    uint8_t pad_size, to_pad = p_code;
+    while (to_pad > 0) {
+        pad_size = 
+        while (to_pad - 
+        emit_nop(to_pad - 
+    }
     // since there isn't 1-byte nop, make some room for padding with another size
     if (to_pad % base_nop_size == 1) 
         limit = to_pad - base_nop_size - 1;
@@ -174,10 +181,10 @@ void exec_op(uint8_t op, int32_t *rx, int32_t *ry) {
     emit_bytes(2, 0x89, 0x10);   // mov DWORD PTR [rax], edx
 }
 
-void update_usage(uint32_t *instruction) {
+void update_usage(void *instruction) {
     emit_bytes(2, 0x048, 0xb8);            // mov rax, instruction
     emit_64_bits((int64_t)instruction);
-    emit_bytes(2, 0xff, 0x00);             // inc DWORD PTR [rax]
+    emit_bytes(2, 0xff, 0x00);             // inc QWORD PTR [rax]
 }
 
 void empty_instruction(int8_t i) {
