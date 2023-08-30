@@ -25,13 +25,17 @@ uint32_t template_usage[N_TEMPLATES];
 int8_t code[X86_PADDING];
 // pointer to last byte we wrote in code
 int8_t p_code;
+// current index of instruction
 int16_t pc;
-// page where we will inject code
+// page where we will inject code and jit function
 void *memory_page;
 int32_t length;
 int8_t (*jit)(void);
+// translation utilities
 int32_t rx, ry, i16;
 int8_t instruction;
+uint8_t cond = 0b000;
+// files
 FILE *input, *output;
 
 void emit_byte(int8_t b) {
@@ -170,12 +174,10 @@ void exec_op(uint8_t op, int32_t *rx, int32_t *ry) {
     emit_bytes(2, 0x89, 0x10);   // mov DWORD PTR [rax], edx
 }
 
-void update_usage(int8_t instruction) {
-    emit_byte(0xb9);                       // mov ecx, instruction
-    emit_32_bits((int32_t)instruction);
-    emit_bytes(2, 0x048, 0xb8);            // mov rax, &template_usage
-    emit_64_bits((int64_t)template_usage);
-    emit_bytes(3, 0xff, 0x04, 0x08);       // inc DWORD PTR [rax + rcx * 1]
+void update_usage(uint32_t *instruction) {
+    emit_bytes(2, 0x048, 0xb8);            // mov rax, instruction
+    emit_64_bits((int64_t)instruction);
+    emit_bytes(2, 0xff, 0x00);             // inc DWORD PTR [rax]
 }
 
 void empty_instruction(int8_t i) {
@@ -246,14 +248,14 @@ void emit_jump_addr(int32_t i16, uint8_t is_directioner_jmp) {
 // jmp i16
 void template_0x5(int32_t *rx, int32_t *ry, int32_t i16) {
     emit_byte(0xe9);         // jmp jump_addr
-    emit_jump_addr(i16, 0);
+    emit_jump_addr(i16 + PQP_PADDING, 0);
 }
 
 void jump_cond(int32_t i16, int8_t cond_byte) {
     emit_bytes(3, 0x4c, 0x89, 0xe8); // mov rax, r13
     emit_byte(0x9e);                 // sahf
     emit_bytes(2, 0x0f, cond_byte);  // j[cond] jump_addr
-    emit_jump_addr(i16, 0);
+    emit_jump_addr(i16 + PQP_PADDING, 0);
 }
 
 // jg i16
@@ -288,12 +290,12 @@ void template_0xb(int32_t *rx, int32_t *ry, int32_t i16) {
 
 // or rx, ry
 void template_0xc(int32_t *rx, int32_t *ry, int32_t i16) {
-    exec_op(AND, rx, ry);
+    exec_op(OR, rx, ry);
 }
 
 // xor rx, ry
 void template_0xd(int32_t *rx, int32_t *ry, int32_t i16) {
-    exec_op(AND, rx, ry);
+    exec_op(XOR, rx, ry);
 }
 
 // sal rx, i16
@@ -304,7 +306,6 @@ void template_0xe(int32_t *rx, int32_t *ry, int32_t i16) {
     emit_bytes(2, 0xc1, 0xe1);   // shl ecx, i16
     emit_5_bits(i16);
     emit_bytes(2, 0x89, 0x08);   // mov DWORD PTR [rax], ecx
-
 }
 
 // sar rx, i16
@@ -331,8 +332,19 @@ void parse(int16_t pc, int8_t *instruction, int32_t *rx, int32_t *ry, int32_t *i
    *i16 = (int32_t)*(int16_t *)(&MEM[pc + 2]);
 }
 
+uint32_t print_addr(uint8_t cond_flag) {
+    uint32_t printed_addr;
+    if (cond == cond_flag) {
+        pc += PQP_PADDING + i16;
+        printed_addr = pc;
+    }
+    else {
+        printed_addr = pc + PQP_PADDING + i16;
+    }
+    return printed_addr;
+}
+
 void translate(int8_t curr_line) {
-    uint8_t cond = 0b000;
     p_code = 0;
     pc = curr_line * 4;
     parse(pc, &instruction, &rx, &ry, &i16);
@@ -395,28 +407,28 @@ void translate(int8_t curr_line) {
             fprintf(
                 output,
                 "JMP 0x%08X\n",
-                instruction + 16 + PQP_PADDING
+                pc + i16 + PQP_PADDING
             );
             break;
         case 0x6:
             fprintf(
                 output,
                 "JG 0x%08X\n",
-                pc + PQP_PADDING + i16
+                pc + i16 + PQP_PADDING
             );
             break;
         case 0x7:
             fprintf(
                 output,
                 "JL 0x%08X\n",
-                pc + PQP_PADDING + i16
+                pc + i16 + PQP_PADDING
             );
             break;
         case 0x8:
             fprintf(
                 output,
                 "JE 0x%08X\n",
-                pc + PQP_PADDING + i16
+                print_addr(0b001)
             );
             break;
         case 0x9:
@@ -475,32 +487,34 @@ void translate(int8_t curr_line) {
             );
             break;
         case 0xe:
+            i16 = (i16 >> 8) & 0b11111;
             fprintf(
                 output,
                 "SAL R%d<<=%d=0x%08X<<%d=0x%08X\n",
                 rx,
-                i16 << 8,
+                i16,
                 regs[rx],
-                i16 << 8,
+                i16,
                 regs[rx] << i16
             );
             break;
         case 0xf:
+            i16 = (i16 >> 8) & 0b11111;
             fprintf(
                 output,
                 "SAR R%d>>=%d=0x%08X>>%d=0x%08X\n",
                 rx,
-                i16 >> 8,
+                i16,
                 regs[rx],
-                i16 >> 8,
+                i16,
                 regs[rx] >> i16
             );
             break;
         default:
             break;
     }
+    update_usage(&template_usage[instruction]);
     templates[instruction](&regs[rx], &regs[ry], i16);
-    update_usage(instruction);
     emit_padding();
 }
 
@@ -524,7 +538,7 @@ void initialize_page (void) {
             MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     for (int8_t i = 0; i < N_INSTRUCTIONS + 2; i++) {
         p_code = 0;
-        if (i == N_INSTRUCTIONS + 2 - 1)
+        if (i == (N_INSTRUCTIONS) + 1)
             empty_instruction(-1);
         else if (i == 0)
             directioner(1);
