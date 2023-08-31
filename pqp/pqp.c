@@ -11,26 +11,25 @@ uint8_t MEM[MEM_SIZE];
 #define N_REGS 16
 int32_t regs[N_REGS];
 #define N_TEMPLATES 16
-#define PQP_PADDING 4
-#define X86_PADDING 64
-#define N_INSTRUCTIONS MEM_SIZE / PQP_PADDING
-#define JMP_SCALAR X86_PADDING / PQP_PADDING  
-// 0 is reserved for directioner
-#define EXIT_INSTRUCTION_INDEX N_INSTRUCTIONS + 1
-// if translated[i] => the i-th instruction has been translated
-uint8_t translated[N_INSTRUCTIONS];
 // usage[i] => number of times i-th template has been executed
 uint64_t template_usage[N_TEMPLATES];
-// holds translated bytes before each translation
+#define PQP_PADDING 4
+#define X86_PADDING 16
+#define N_INSTRUCTIONS MEM_SIZE / PQP_PADDING
+#define JMP_SCALAR X86_PADDING / PQP_PADDING  
+#define EXIT_INSTRUCTION_INDEX N_INSTRUCTIONS + 1
+#define EXITTER_FLAG -1
+// holds translated bytes before each injection
 int8_t code[X86_PADDING];
 // pointer to last byte we wrote in code
 int8_t p_code;
 // current index of instruction
 int16_t pc;
+uint8_t exitted_normally;
 // page where we will inject code and jit function
 void *memory_page;
 int32_t length;
-int8_t (*jit)(void);
+int8_t (*jit)(void *, void *, void *);
 // translation utilities
 int32_t rx, ry, i16;
 int8_t instruction;
@@ -105,40 +104,34 @@ void emit_nop(uint8_t nop_size) {
             // 66 nop DWORD PTR [eax + eax * 1 + 0x00000000]
             emit_bytes(9, 0x66, 0x0f, 0x1f, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00);
             break;
+        case 10:
+            emit_bytes(10, 0x66, 0x66, 0x0f, 0x1f, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00);
+            break;
+        case 11:
+            emit_bytes(11, 0x66, 0x66, 0x66, 0x0f, 0x1f, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00);
         default:
             break;
     }
 }
 
-void emit_padding(void) {
-    // assumes (X86_PADDING - p_code) >= base_nop_size
-    uint8_t pad_size, to_pad = p_code;
+#define DEFAULT_PAD_SIZE 11
+void emit_padding() {
+    uint8_t pad_size, to_pad = (X86_PADDING) - p_code;
     while (to_pad > 0) {
-        pad_size = 
-        while (to_pad - 
-        emit_nop(to_pad - 
+        pad_size = to_pad > DEFAULT_PAD_SIZE ? DEFAULT_PAD_SIZE : to_pad;
+        emit_nop(pad_size);
+        to_pad -= pad_size;
     }
-    // since there isn't 1-byte nop, make some room for padding with another size
-    if (to_pad % base_nop_size == 1) 
-        limit = to_pad - base_nop_size - 1;
-    else
-        limit = (to_pad / base_nop_size) * base_nop_size;
-    to_pad = to_pad - limit;
-    for (size_t i = 0; i < limit; i += base_nop_size)
-        emit_nop(base_nop_size);
-    emit_nop(to_pad);
 }
 
 // useful for moving regs addresses to real registers
-void mov_both(void *rx, void *ry) {
-    emit_bytes(2, 0x48, 0xb8);   // mov rax, rx
-    emit_64_bits((uint64_t)rx);
-    emit_bytes(2, 0x48, 0xb9);   // mov rcx, ry
-    emit_64_bits((uint64_t)ry);
+void mov_both(uint8_t rx, uint8_t ry) {
+    emit_bytes(3, 0x8b, 0x46, rx * 4);  // mov eax, DWORD PTR [rsi + rx * 4]
+    emit_bytes(3, 0x8b, 0x4e, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
 }
 
 void emit_prologue(void) {
-    emit_byte(0x55);                // push rbp
+    emit_byte(0x55);                   // push rbp
     emit_bytes(3, 0x48, 0x89, 0xe5);   // mov rbp, rsp
 }
 
@@ -155,86 +148,64 @@ void emit_epilogue(void) {
 /*
  * helper for operations among registers
  */
-void exec_op(uint8_t op, int32_t *rx, int32_t *ry) {
-    mov_both(rx, ry);
-    emit_bytes(2, 0x8b, 0x09);   // mov ecx, DWORD PTR [rcx]
-    emit_bytes(2, 0x8b, 0x10);   // mov edx, DWORD PTR [rax]
+void exec_op(uint8_t op, uint8_t rx, uint8_t ry) {
+    emit_bytes(3, 0x8b, 0x4e, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
     switch (op) {
-        case ADD:
-            emit_bytes(2, 0x01, 0xca); // add edx, ecx
-            break;
-        case SUB:
-            emit_bytes(2, 0x29, 0xca); // sub edx, ecx
-            break;
-        case AND:
-            emit_bytes(2, 0x21, 0xca); // and edx, ecx
-            break;
-        case OR:
-            emit_bytes(2, 0x09, 0xca); // or edx, ecx
-            break;
-        case XOR:
-            emit_bytes(2, 0x31, 0xca); // xor edx, ecx
-            break;
-        default:
-            break;
+        case ADD: emit_byte(0x01); break;
+        case SUB: emit_byte(0x29); break;
+        case AND: emit_byte(0x21); break;
+        case  OR: emit_byte(0x09); break;
+        case XOR: emit_byte(0x31); break;
+        default: break;
     }
-    emit_bytes(2, 0x89, 0x10);   // mov DWORD PTR [rax], edx
+    emit_bytes(2, 0x4a, rx * 4);   // <op> DWORD PTR [rdx + rx * 4], ecx
 }
 
-void update_usage(void *instruction) {
-    emit_bytes(2, 0x048, 0xb8);            // mov rax, instruction
-    emit_64_bits((int64_t)instruction);
-    emit_bytes(2, 0xff, 0x00);             // inc QWORD PTR [rax]
+void update_usage(uint8_t instruction) {
+    emit_bytes(3, 0xff, 0x47, instruction * 4); // inc DWORD PTR [rdi + instruction * 4]
 }
 
 void empty_instruction(int8_t i) {
+    if (i == EXITTER_FLAG) {
+        // in case we reach the end without any illegal jump
+        emit_bytes(2, 0x48, 0xb8);          // mov rax, &exitted_normally
+        emit_64_bits((uint64_t)&exitted_normally);
+        emit_bytes(3, 0xc6, 0x00, 0x01);    // mov BYTE PTR [rax], 1
+    }
     emit_bytes(7, 0x48, 0xc7, 0xc0, i, 0x00, 0x00, 0x00);   // mov rax, i
     emit_epilogue();
 }
 
 // mov rx, i16
-void template_0x0(int32_t *rx, int32_t *ry, int32_t i16) {
-    emit_bytes(2, 0x48, 0xb8);   // mov rax, rx
-    emit_64_bits((int64_t)rx);
-    emit_bytes(2, 0xc7, 0x00);   // mov DWORD PTR [rax], i16
+void template_0x0(uint8_t rx, uint8_t ry, int32_t i16) {
+    emit_bytes(3, 0xc7, 0x42, rx * 4);  // mov DWORD PTR [rdx + rx * 4], i16
     emit_32_bits(i16);
 }
 
 // mov rx, ry
-void template_0x1(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x1(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
-    emit_bytes(2, 0x8b, 0x09);   // mov ecx, DWORD PTR [rcx]
-    emit_bytes(2, 0x89, 0x08);   // mov DWORD PTR [rax], ecx
+    emit_bytes(3, 0x89, 0x4a, rx * 4); // mov DWORD PTR [rdx + rx * 4], ecx
 }
 
 // mov rx, [ry]
-void template_0x2(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x2(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
-    emit_bytes(2, 0x48, 0xba);   // mov rdx, MEM
-    emit_64_bits((uint64_t)MEM);
-    emit_bytes(2, 0x8b, 0x09);   // mov ecx, DWORD PTR [rcx]
-    emit_bytes(3, 0x8b, 0x0c, 0x0a); // mov ecx, DWORD PTR [rdx + rcx]
-    emit_bytes(2, 0x89, 0x08);   // mov DWORD PTR [rax], ecx
+    emit_bytes(3, 0x8b, 0x0c, 0x0e);   // mov ecx, DWORD PTR [rsi + rcx]
+    emit_bytes(3, 0x89, 0x4a, rx * 4); // mov DWORD PTR [rdx + rx * 4], ecx
 }
 
 // mov [rx], ry
-void template_0x3(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x3(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
-    emit_bytes(2, 0x48, 0xba);   // mov rdx, MEM
-    emit_64_bits((uint64_t)MEM);
-
-    emit_bytes(2, 0x8b, 0x09);   // mov ecx, DWORD PTR [rcx]
-    emit_bytes(2, 0x8b, 0x00);   // mov eax, DWORD PTR [rax]
-    emit_bytes(3, 0x89, 0x0c, 0x02); // mov DWORD PTR [rdx + rax], ecx
+    emit_bytes(3, 0x89, 0x0c, 0x02); // mov DWORD PTR [rsi + rax], ecx
 }
 
 // cmp rx, ry
-void template_0x4(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x4(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
-    emit_bytes(2, 0x8b, 0x00);   // mov eax, DWORD PTR [rax]
-    emit_bytes(2, 0x8b, 0x09);   // mov ecx, DWORD PTR [rcx]
-    emit_bytes(2, 0x39, 0xc8);   // cmp eax, ecx
-    emit_byte(0x9f);          // lahf
+    emit_bytes(2, 0x39, 0xc8);       // cmp eax, ecx
+    emit_byte(0x9f);                 // lahf
     emit_bytes(3, 0x49, 0x89, 0xc5); // mov r13, rax  
 }
 
@@ -246,14 +217,14 @@ void emit_jump_addr(int32_t i16, uint8_t is_directioner_jmp) {
     int32_t offset;
     if (valid_jump(i16) || is_directioner_jmp)
         offset = i16;
-    else 
+    else
         // important parentheses for avoiding incorrect macro expansion
         offset = (EXIT_INSTRUCTION_INDEX) * (PQP_PADDING) - (pc + 4);
     emit_32_bits(offset * (JMP_SCALAR) - p_code - 4);
 }
 
 // jmp i16
-void template_0x5(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x5(uint8_t rx, uint8_t ry, int32_t i16) {
     emit_byte(0xe9);         // jmp jump_addr
     emit_jump_addr(i16 + PQP_PADDING, 0);
 }
@@ -266,66 +237,56 @@ void jump_cond(int32_t i16, int8_t cond_byte) {
 }
 
 // jg i16
-void template_0x6(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x6(uint8_t rx, uint8_t ry, int32_t i16) {
     jump_cond(i16, 0x8f);
 }
 
 // jl i16
-void template_0x7(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x7(uint8_t rx, uint8_t ry, int32_t i16) {
     jump_cond(i16, 0x8c);
 }
 
 // je 16
-void template_0x8(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x8(uint8_t rx, uint8_t ry, int32_t i16) {
     jump_cond(i16, 0x84);
 }
 
 // add rx, ry
-void template_0x9(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0x9(uint8_t rx, uint8_t ry, int32_t i16) {
     exec_op(ADD, rx, ry);
 }
 
 // sub rx, ry
-void template_0xa(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0xa(uint8_t rx, uint8_t ry, int32_t i16) {
     exec_op(SUB, rx, ry);
 }
 
 // and rx, ry
-void template_0xb(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0xb(uint8_t rx, uint8_t ry, int32_t i16) {
     exec_op(AND, rx, ry);
 }
 
 // or rx, ry
-void template_0xc(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0xc(uint8_t rx, uint8_t ry, int32_t i16) {
     exec_op(OR, rx, ry);
 }
 
 // xor rx, ry
-void template_0xd(int32_t *rx, int32_t *ry, int32_t i16) {
+void template_0xd(uint8_t rx, uint8_t ry, int32_t i16) {
     exec_op(XOR, rx, ry);
 }
 
 // sal rx, i16
-void template_0xe(int32_t *rx, int32_t *ry, int32_t i16) {
-    emit_bytes(2, 0x48, 0xb8);   // mov rax, rx
-    emit_64_bits((uint64_t)rx);
-    emit_bytes(2, 0x8b, 0x08);   // mov ecx, DWORD PTR [rax]
-    emit_bytes(2, 0xc1, 0xe1);   // shl ecx, i16
-    emit_5_bits(i16);
-    emit_bytes(2, 0x89, 0x08);   // mov DWORD PTR [rax], ecx
+void template_0xe(uint8_t rx, uint8_t ry, int32_t i16) {
+    emit_bytes(4, 0xc1, 0x62, rx * 4, (uint8_t)i16);  // shl DWORD PTR [rdx + rx * 4], i16
 }
 
 // sar rx, i16
-void template_0xf(int32_t *rx, int32_t *ry, int32_t i16) {
-    emit_bytes(2, 0x48, 0xb8);   // mov rax, rx
-    emit_64_bits((uint64_t)rx);
-    emit_bytes(2, 0x8b, 0x08);   // mov ecx, DWORD PTR [rax]
-    emit_bytes(2, 0xc1, 0xf9);   // sar ecx, i16
-    emit_5_bits(i16);
-    emit_bytes(2, 0x89, 0x08);   // mov DWORD PTR [rax], ecx
+void template_0xf(uint8_t rx, uint8_t ry, int32_t i16) {
+    emit_bytes(4, 0xc1, 0x7a, rx * 4, (uint8_t)i16); // sar DWORD PTR [rdx + rx * 4], i16
 }
 
-void (*templates[16])(int32_t *, int32_t *, int32_t) = {
+void (*templates[16])(uint8_t , uint8_t , int32_t) = {
     template_0x0, template_0x1, template_0x2, template_0x3, 
     template_0x4, template_0x5, template_0x6, template_0x7, 
     template_0x8, template_0x9, template_0xa, template_0xb,
@@ -520,18 +481,18 @@ void translate(int8_t curr_line) {
         default:
             break;
     }
-    update_usage(&template_usage[instruction]);
-    templates[instruction](&regs[rx], &regs[ry], i16);
+    update_usage(instruction);
+    templates[instruction](rx, ry, i16);
     emit_padding();
 }
 
 void inject(int16_t i) {
     mprotect(memory_page, length, PROT_WRITE);
-    memcpy(&((uint8_t *)memory_page)[X86_PADDING * i], (void *)code, X86_PADDING);
+    memcpy(&((uint8_t *)memory_page)[(X86_PADDING)], (void *)code, X86_PADDING);
     mprotect(memory_page, length, PROT_EXEC);
 }
 
-// jit will always call this first
+// jit will always execute this first
 // it returns back to the context where it was before last translation
 void directioner(int16_t i) {
     emit_prologue();
@@ -543,22 +504,21 @@ void directioner(int16_t i) {
 void initialize_page (void) {
     memory_page = mmap(0, length, PROT_NONE,
             MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    for (int8_t i = 0; i < N_INSTRUCTIONS + 2; i++) {
+    for (int8_t i = 0; i < N_INSTRUCTIONS + 1; i++) {
         p_code = 0;
-        if (i == (N_INSTRUCTIONS) + 1)
-            empty_instruction(-1);
+        if (i == N_INSTRUCTIONS)
+            empty_instruction(EXITTER_FLAG);
         else if (i == 0)
             directioner(1);
         else
             empty_instruction(i);
         inject(i);
     }
-    jit = (int8_t(*)(void))(memory_page);
+    jit = (int8_t(*)(void *, void *, void *))(memory_page);
 }
 
 void jit_loop(void) {
     initialize_page();
-    // we do + 1 because the first 64 bytes are reserved for directioner
     int8_t not_translated = 1;
     while (not_translated != -1) {
         translate(not_translated - 1);
@@ -566,15 +526,15 @@ void jit_loop(void) {
         p_code = 0;
         directioner(not_translated);
         inject(0);
-        not_translated = jit();
+        not_translated = jit(template_usage, MEM, regs);
     }
-    fprintf(output, "0x%08X->EXIT\n", pc + PQP_PADDING + i16);
+    fprintf(output, "0x%08X->EXIT\n", exitted_normally ? MEM_SIZE : pc + PQP_PADDING + i16);
 }
 
 void print_template_usage(void) {
     fprintf(output, "[");
     for (size_t i = 0; i < N_TEMPLATES; i++) {
-        fprintf(output, "%02lX:%d%s", 
+        fprintf(output, "%02lX:%ld%s", 
                 i,
                 template_usage[i],
                 i == N_TEMPLATES - 1 ? "" : ",");
