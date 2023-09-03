@@ -1,5 +1,5 @@
 CXX := gcc
-CXX_FLAGS := -Wall -g
+CXX_FLAGS := -Wall -O3 -g
 PROJECT := pqp
 
 $(PROJECT).bin: $(PROJECT).c
@@ -8,6 +8,11 @@ $(PROJECT).bin: $(PROJECT).c
 run: $(PROJECT).bin
 	./$(PROJECT).bin $(PROJECT).input $(PROJECT).output
 	cat $(PROJECT).output
+
+golden: $(PROJECT).bin
+	./$(PROJECT).bin golden.input golden.output
+	cat golden.output
+n:
 
 clean:
 	rm -rf *.bin *.o

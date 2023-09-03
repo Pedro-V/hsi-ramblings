@@ -5,14 +5,13 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdarg.h>
-
 #define MEM_SIZE 128
 uint8_t MEM[MEM_SIZE];
 #define N_REGS 16
 int32_t regs[N_REGS];
 #define N_TEMPLATES 16
 // usage[i] => number of times i-th template has been executed
-uint64_t template_usage[N_TEMPLATES];
+uint32_t template_usage[N_TEMPLATES];
 #define PQP_PADDING 4
 #define X86_PADDING 16
 #define N_INSTRUCTIONS MEM_SIZE / PQP_PADDING
@@ -22,10 +21,9 @@ uint64_t template_usage[N_TEMPLATES];
 // holds translated bytes before each injection
 int8_t code[X86_PADDING];
 // pointer to last byte we wrote in code
-int8_t p_code;
+uint8_t p_code;
 // current index of instruction
 int16_t pc;
-uint8_t exitted_normally;
 // page where we will inject code and jit function
 void *memory_page;
 int32_t length;
@@ -126,8 +124,8 @@ void emit_padding() {
 
 // useful for moving regs addresses to real registers
 void mov_both(uint8_t rx, uint8_t ry) {
-    emit_bytes(3, 0x8b, 0x46, rx * 4);  // mov eax, DWORD PTR [rsi + rx * 4]
-    emit_bytes(3, 0x8b, 0x4e, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
+    emit_bytes(3, 0x8b, 0x42, rx * 4);  // mov eax, DWORD PTR [rsi + rx * 4]
+    emit_bytes(3, 0x8b, 0x4a, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
 }
 
 void emit_prologue(void) {
@@ -149,7 +147,8 @@ void emit_epilogue(void) {
  * helper for operations among registers
  */
 void exec_op(uint8_t op, uint8_t rx, uint8_t ry) {
-    emit_bytes(3, 0x8b, 0x4e, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
+    mov_both(rx, ry);
+    emit_bytes(3, 0x8b, 0x4a, ry * 4);  // mov ecx, DWORD PTR [rdx + ry * 4]
     switch (op) {
         case ADD: emit_byte(0x01); break;
         case SUB: emit_byte(0x29); break;
@@ -166,13 +165,8 @@ void update_usage(uint8_t instruction) {
 }
 
 void empty_instruction(int8_t i) {
-    if (i == EXITTER_FLAG) {
-        // in case we reach the end without any illegal jump
-        emit_bytes(2, 0x48, 0xb8);          // mov rax, &exitted_normally
-        emit_64_bits((uint64_t)&exitted_normally);
-        emit_bytes(3, 0xc6, 0x00, 0x01);    // mov BYTE PTR [rax], 1
-    }
-    emit_bytes(7, 0x48, 0xc7, 0xc0, i, 0x00, 0x00, 0x00);   // mov rax, i
+    emit_byte(0xb8);    // mov eax, i
+    emit_32_bits(i);
     emit_epilogue();
 }
 
@@ -198,7 +192,7 @@ void template_0x2(uint8_t rx, uint8_t ry, int32_t i16) {
 // mov [rx], ry
 void template_0x3(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
-    emit_bytes(3, 0x89, 0x0c, 0x02); // mov DWORD PTR [rsi + rax], ecx
+    emit_bytes(3, 0x89, 0x0c, 0x06); // mov DWORD PTR [rsi + rax], ecx
 }
 
 // cmp rx, ry
@@ -206,7 +200,7 @@ void template_0x4(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
     emit_bytes(2, 0x39, 0xc8);       // cmp eax, ecx
     emit_byte(0x9f);                 // lahf
-    emit_bytes(3, 0x49, 0x89, 0xc5); // mov r13, rax  
+    emit_bytes(3, 0x49, 0x89, 0xc7); // mov r15, rax  
 }
 
 int8_t valid_jump(int32_t i16) {
@@ -225,12 +219,12 @@ void emit_jump_addr(int32_t i16, uint8_t is_directioner_jmp) {
 
 // jmp i16
 void template_0x5(uint8_t rx, uint8_t ry, int32_t i16) {
-    emit_byte(0xe9);         // jmp jump_addr
+    emit_byte(0xe9);                        // jmp jump_addr
     emit_jump_addr(i16 + PQP_PADDING, 0);
 }
 
 void jump_cond(int32_t i16, int8_t cond_byte) {
-    emit_bytes(3, 0x4c, 0x89, 0xe8); // mov rax, r13
+    emit_bytes(3, 0x4c, 0x89, 0xf8); // mov rax, r13
     emit_byte(0x9e);                 // sahf
     emit_bytes(2, 0x0f, cond_byte);  // j[cond] jump_addr
     emit_jump_addr(i16 + PQP_PADDING, 0);
@@ -319,15 +313,15 @@ void translate(int8_t curr_line) {
     fprintf(output, "0x%08X->", pc);
     switch (instruction) {
         case 0x0:
-            fprintf(output, "MOV R%d=0x%08X\n", rx, i16);
+            fprintf(output, "MOV_R%d=0x%08X\n", rx, i16);
             break;
         case 0x1:
-            fprintf(output, "MOV R%d=R%d=0x%08X\n", rx, ry, regs[ry]);
+            fprintf(output, "MOV_R%d=R%d=0x%08X\n", rx, ry, regs[ry]);
             break;
         case 0x2:
             fprintf(
                 output, 
-                "MOV R%d=MEM[0x%02X,0x%02X,0x%02X,0x%02X]=[0x%02X,0x%02X,0x%02X,0x%02X]\n",
+                "MOV_R%d=MEM[0x%02X,0x%02X,0x%02X,0x%02X]=[0x%02X,0x%02X,0x%02X,0x%02X]\n",
                 rx,
                 regs[ry],
                 regs[ry] + 1,
@@ -342,7 +336,7 @@ void translate(int8_t curr_line) {
         case 0x3:
             fprintf(
                 output,
-                "MOV MEM[0x%02X,0x%02X,0x%02X,0x%02X]=R%d=[0x%02X,0x%02X,0x%02X,0x%02X]\n",
+                "MOV_MEM[0x%02X,0x%02X,0x%02X,0x%02X]=R%d=[0x%02X,0x%02X,0x%02X,0x%02X]\n",
                 regs[rx],
                 regs[rx] + 1,
                 regs[rx] + 2,
@@ -363,7 +357,7 @@ void translate(int8_t curr_line) {
                 cond = 0b001;
             fprintf(
                 output,
-                "CMP R%d<=>R%d(G=%d,L=%d,E=%d)\n",
+                "CMP_R%d<=>R%d(G=%d,L=%d,E=%d)\n",
                 rx,
                 ry,
                 (cond & 0b100) >> 2,
@@ -374,35 +368,35 @@ void translate(int8_t curr_line) {
         case 0x5:
             fprintf(
                 output,
-                "JMP 0x%08X\n",
+                "JMP_0x%08X\n",
                 pc + i16 + PQP_PADDING
             );
             break;
         case 0x6:
             fprintf(
                 output,
-                "JG 0x%08X\n",
+                "JG_0x%08X\n",
                 pc + i16 + PQP_PADDING
             );
             break;
         case 0x7:
             fprintf(
                 output,
-                "JL 0x%08X\n",
+                "JL_0x%08X\n",
                 pc + i16 + PQP_PADDING
             );
             break;
         case 0x8:
             fprintf(
                 output,
-                "JE 0x%08X\n",
+                "JE_0x%08X\n",
                 print_addr(0b001)
             );
             break;
         case 0x9:
             fprintf(
                 output,
-                "ADD R%d+=R%d=0x%08X+0x%08X=0x%08X\n",
+                "ADD_R%d+=R%d=0x%08X+0x%08X=0x%08X\n",
                 rx,
                 ry,
                 regs[rx],
@@ -413,7 +407,7 @@ void translate(int8_t curr_line) {
         case 0xa:
             fprintf(
                 output,
-                "SUB R%d-=R%d=0x%08X-0x%08X=0x%08X\n",
+                "SUB_R%d-=R%d=0x%08X-0x%08X=0x%08X\n",
                 rx,
                 ry,
                 regs[rx],
@@ -424,7 +418,7 @@ void translate(int8_t curr_line) {
         case 0xb:
             fprintf(
                 output,
-                "AND R%d&=R%d=0x%08X&0x%08X=0x%08X\n",
+                "AND_R%d&=R%d=0x%08X&0x%08X=0x%08X\n",
                 rx,
                 ry,
                 regs[rx],
@@ -435,7 +429,7 @@ void translate(int8_t curr_line) {
         case 0xc:
             fprintf(
                 output,
-                "OR R%d|=R%d=0x%08X|0x%08X=0x%08X\n",
+                "OR_R%d|=R%d=0x%08X|0x%08X=0x%08X\n",
                 rx,
                 ry,
                 regs[rx],
@@ -446,7 +440,7 @@ void translate(int8_t curr_line) {
         case 0xd:
             fprintf(
                 output,
-                "XOR R%d^=R%d=0x%08X^0x%08X=0x%08X\n",
+                "XOR_R%d^=R%d=0x%08X^0x%08X=0x%08X\n",
                 rx,
                 ry,
                 regs[rx],
@@ -458,7 +452,7 @@ void translate(int8_t curr_line) {
             i16 = (i16 >> 8) & 0b11111;
             fprintf(
                 output,
-                "SAL R%d<<=%d=0x%08X<<%d=0x%08X\n",
+                "SAL_R%d<<=%d=0x%08X<<%d=0x%08X\n",
                 rx,
                 i16,
                 regs[rx],
@@ -470,7 +464,7 @@ void translate(int8_t curr_line) {
             i16 = (i16 >> 8) & 0b11111;
             fprintf(
                 output,
-                "SAR R%d>>=%d=0x%08X>>%d=0x%08X\n",
+                "SAR_R%d>>=%d=0x%08X>>%d=0x%08X\n",
                 rx,
                 i16,
                 regs[rx],
@@ -488,7 +482,7 @@ void translate(int8_t curr_line) {
 
 void inject(int16_t i) {
     mprotect(memory_page, length, PROT_WRITE);
-    memcpy(&((uint8_t *)memory_page)[(X86_PADDING)], (void *)code, X86_PADDING);
+    memcpy(&((uint8_t *)memory_page)[i * (X86_PADDING)], (void *)code, X86_PADDING);
     mprotect(memory_page, length, PROT_EXEC);
 }
 
@@ -504,9 +498,9 @@ void directioner(int16_t i) {
 void initialize_page (void) {
     memory_page = mmap(0, length, PROT_NONE,
             MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    for (int8_t i = 0; i < N_INSTRUCTIONS + 1; i++) {
+    for (int8_t i = 0; i < N_INSTRUCTIONS + 2; i++) {
         p_code = 0;
-        if (i == N_INSTRUCTIONS)
+        if (i == N_INSTRUCTIONS + 1)
             empty_instruction(EXITTER_FLAG);
         else if (i == 0)
             directioner(1);
@@ -520,7 +514,7 @@ void initialize_page (void) {
 void jit_loop(void) {
     initialize_page();
     int8_t not_translated = 1;
-    while (not_translated != -1) {
+    while (not_translated > -1 && not_translated <= N_INSTRUCTIONS) {
         translate(not_translated - 1);
         inject(not_translated);
         p_code = 0;
@@ -528,13 +522,13 @@ void jit_loop(void) {
         inject(0);
         not_translated = jit(template_usage, MEM, regs);
     }
-    fprintf(output, "0x%08X->EXIT\n", exitted_normally ? MEM_SIZE : pc + PQP_PADDING + i16);
+    fprintf(output, "0x%08X->EXIT\n", 0x7f80);
 }
 
 void print_template_usage(void) {
     fprintf(output, "[");
     for (size_t i = 0; i < N_TEMPLATES; i++) {
-        fprintf(output, "%02lX:%ld%s", 
+        fprintf(output, "%02lX:%d%s", 
                 i,
                 template_usage[i],
                 i == N_TEMPLATES - 1 ? "" : ",");
@@ -563,6 +557,7 @@ int main(int argc, char **argv) {
     jit_loop();
     print_template_usage();
     print_regs_state();
+    fprintf(output, "\n");
     fclose(input);
     fclose(output);
     munmap(memory_page, length);
