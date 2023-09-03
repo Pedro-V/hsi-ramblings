@@ -8,7 +8,7 @@
 #define MEM_SIZE 128
 uint8_t MEM[MEM_SIZE];
 #define N_REGS 16
-int32_t regs[N_REGS];
+int32_t regs[N_REGS + 1];
 #define N_TEMPLATES 16
 // usage[i] => number of times i-th template has been executed
 uint32_t template_usage[N_TEMPLATES];
@@ -147,8 +147,7 @@ void emit_epilogue(void) {
  * helper for operations among registers
  */
 void exec_op(uint8_t op, uint8_t rx, uint8_t ry) {
-    mov_both(rx, ry);
-    emit_bytes(3, 0x8b, 0x4a, ry * 4);  // mov ecx, DWORD PTR [rdx + ry * 4]
+    emit_bytes(3, 0x8b, 0x4a, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
     switch (op) {
         case ADD: emit_byte(0x01); break;
         case SUB: emit_byte(0x29); break;
@@ -165,6 +164,7 @@ void update_usage(uint8_t instruction) {
 }
 
 void empty_instruction(int8_t i) {
+    emit_bytes(4, 0x44, 0x89, 0x42, N_REGS * 4); // mov DWORD PTR [rdx+N_REGS * 4], r8d
     emit_byte(0xb8);    // mov eax, i
     emit_32_bits(i);
     emit_epilogue();
@@ -178,13 +178,13 @@ void template_0x0(uint8_t rx, uint8_t ry, int32_t i16) {
 
 // mov rx, ry
 void template_0x1(uint8_t rx, uint8_t ry, int32_t i16) {
-    mov_both(rx, ry);
+    emit_bytes(3, 0x8b, 0x4a, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
     emit_bytes(3, 0x89, 0x4a, rx * 4); // mov DWORD PTR [rdx + rx * 4], ecx
 }
 
 // mov rx, [ry]
 void template_0x2(uint8_t rx, uint8_t ry, int32_t i16) {
-    mov_both(rx, ry);
+    emit_bytes(3, 0x8b, 0x4a, ry * 4);  // mov ecx, DWORD PTR [rsi + ry * 4]
     emit_bytes(3, 0x8b, 0x0c, 0x0e);   // mov ecx, DWORD PTR [rsi + rcx]
     emit_bytes(3, 0x89, 0x4a, rx * 4); // mov DWORD PTR [rdx + rx * 4], ecx
 }
@@ -200,7 +200,7 @@ void template_0x4(uint8_t rx, uint8_t ry, int32_t i16) {
     mov_both(rx, ry);
     emit_bytes(2, 0x39, 0xc8);       // cmp eax, ecx
     emit_byte(0x9f);                 // lahf
-    emit_bytes(3, 0x49, 0x89, 0xc7); // mov r15, rax  
+    emit_bytes(3, 0x41, 0x89, 0xc0); // mov r8d, eax
 }
 
 int8_t valid_jump(int32_t i16) {
@@ -212,7 +212,6 @@ void emit_jump_addr(int32_t i16, uint8_t is_directioner_jmp) {
     if (valid_jump(i16) || is_directioner_jmp)
         offset = i16;
     else
-        // important parentheses for avoiding incorrect macro expansion
         offset = (EXIT_INSTRUCTION_INDEX) * (PQP_PADDING) - (pc + 4);
     emit_32_bits(offset * (JMP_SCALAR) - p_code - 4);
 }
@@ -224,7 +223,7 @@ void template_0x5(uint8_t rx, uint8_t ry, int32_t i16) {
 }
 
 void jump_cond(int32_t i16, int8_t cond_byte) {
-    emit_bytes(3, 0x4c, 0x89, 0xf8); // mov rax, r13
+    emit_bytes(3, 0x44, 0x89, 0xc0); // mov rax, r8d
     emit_byte(0x9e);                 // sahf
     emit_bytes(2, 0x0f, cond_byte);  // j[cond] jump_addr
     emit_jump_addr(i16 + PQP_PADDING, 0);
@@ -490,6 +489,7 @@ void inject(int16_t i) {
 // it returns back to the context where it was before last translation
 void directioner(int16_t i) {
     emit_prologue();
+    emit_bytes(4, 0x44, 0x8b, 0x42, N_REGS * 4); // mov r8d, DWORD PTR [rdx+N_REGS * 4]
     emit_byte(0xe9);
     emit_jump_addr(i * PQP_PADDING, 1);
     emit_padding();
