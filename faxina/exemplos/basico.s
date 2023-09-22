@@ -1,3 +1,5 @@
+# esse código é alimentado ao Defuse para obter codigo de maquina
+# que será o exemplo dado ao programa
 .section .text
     .globl main
 
