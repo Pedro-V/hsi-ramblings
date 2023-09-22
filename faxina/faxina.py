@@ -1,11 +1,12 @@
+import sys
 from iced_x86 import *
 import subprocess
 
 faxina_path = './faxina'
-input_path = './exemplos/basico.input2'
 
 def get_bytes(string):
     return [string[i:i+2] for i in range(0, len(string), 2)]
+
 
 def str_to_bytes(string):
     hex_values = get_bytes(string)
@@ -22,6 +23,7 @@ def generate_faxina_input(code_bytes):
         faxina_input.append(code[pos:decoder.position])
     return num_instructions, faxina_input
 
+
 def pass_faxina_input(process, num_instructions, faxina_input):
     process.stdin.write(num_instructions + "\n")
     for line in faxina_input:
@@ -29,12 +31,20 @@ def pass_faxina_input(process, num_instructions, faxina_input):
         process.stdin.write(formatted_line)
     process.stdin.flush()
 
+def main():
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <input program>")
+        return
+    fp = sys.argv[1]
+    with open(fp, 'r') as exemplo:
+        # assumes one-line file
+        code_bytes = str_to_bytes(exemplo.readline())
+    process = subprocess.Popen(faxina_path,
+                               stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+    n, faxina_input = generate_faxina_input(code_bytes)
+    pass_faxina_input(process, n, faxina_input)
 
-with open(fp, 'r') as exemplo:
-    # assume que o arquivo só tem uma linha
-    code = str_to_bytes(exemplo.readline())
-
-process = subprocess.Popen(c_program_path,
-                           stdin=subprocess.PIPE,
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+if __name__ == "__main__":
+    main()
