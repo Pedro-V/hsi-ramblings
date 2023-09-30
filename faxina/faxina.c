@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <stdint.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -11,7 +12,7 @@
 FILE *input, *output;
 int32_t length;
 // isso vai ser local pra cada thread
-int8_t (*jit)(void *, void *, void *);
+int8_t (*jit)(void *);
 
 typedef struct Instruction {
     uint32_t start_index;
@@ -25,6 +26,18 @@ typedef struct Code {
     uint32_t num_instructions;
     uint32_t num_bytes;
 } Code;
+
+void get_raw_code(Code *code, uint8_t *result_p) {
+    size_t idx = 0;
+    instruction curr_instruction;
+    for (size_t i = 0; i < code->num_instructions) {
+        curr_instruction = code->instructions[i];
+        for (size_t j = 0; j < curr_instruction->num_bytes; i++) {
+            result_p[idx] = curr_instruction->bytes[j];
+            idx++;
+        }
+    }
+}
 
 Code* input_code = malloc(sizeof(Code));
 
@@ -47,14 +60,19 @@ void read_code(void) {
     input_code->num_bytes = idx;
 }
 
+void *verify_instruction(void *i) {
+}
+
 make_faxineiros(void) {
-    for (size_t i = ;=
-    pthread_create
+    pthread_t *threads;
+    for (size_t i = 0; i < input_code->num_instructions; i++) {
+        pthread_create(&threads[i], NULL, verify_instruction, i);
+    }
 }
 
 void faxinar(void) {
     make_faxineiros();
-    write_useful_code();
+    write_output();
 }
 
 int main(int argc, char **argv) {
