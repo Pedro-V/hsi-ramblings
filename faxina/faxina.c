@@ -21,6 +21,15 @@ typedef struct Instruction {
     uint8_t is_useless;
 } Instruction;
 
+uint32_t read_instruction(Instruction* instruction, uint32_t start_index) {
+    fscanf(input, "%d", instruction->num_bytes);
+    instruction->bytes = malloc(sizeof(uint8_t) * instruction->num_bytes);
+    for (size_t i = 0; i < instruction->num_bytes; i++) {
+        fscanf(input, "%hhx", instruction->bytes[i]);
+    }
+    return start_index + instruction->num_bytes;
+}
+
 typedef struct Code {
     instruction* instructions;
     uint32_t num_instructions;
@@ -39,16 +48,7 @@ void get_raw_code(Code *code, uint8_t *result_p) {
     }
 }
 
-Code* input_code = malloc(sizeof(Code));
-
-uint32_t read_instruction(Instruction* instruction, uint32_t start_index) {
-    fscanf(input, "%d", instruction->num_bytes);
-    instruction->bytes = malloc(sizeof(uint8_t) * instruction->num_bytes);
-    for (size_t i = 0; i < instruction->num_bytes; i++) {
-        fscanf(input, "%hhx", instruction->bytes[i]);
-    }
-    return start_index + instruction->num_bytes;
-}
+Code* input_code;
 
 void read_code(void) {
     fscanf(input, "%d", input_code->num_instructions);
@@ -61,18 +61,40 @@ void read_code(void) {
 }
 
 void *verify_instruction(void *i) {
+    copy_code();
+    replace_syscall();
+    jit();
+    int different = compare_outputs();
+    if (different) {
+        input_code->instructions[i]->is_useless = 1;
+    }
+    return NULL;
 }
 
-make_faxineiros(void) {
+void make_faxineiros(void) {
     pthread_t *threads;
     for (size_t i = 0; i < input_code->num_instructions; i++) {
         pthread_create(&threads[i], NULL, verify_instruction, i);
     }
 }
 
+void print_instruction(Instruction instruction) {
+    for (size_t i = 0; i < instruction.num_bytes; i++) {
+        fprintf(output, "%hhx ", instruction.bytes[i]);
+    }
+    fprintf(output, "\n");
+}
+
+void write_useful(void) {
+    for (size_t i = 0; i < input_code->num_instructions; i++) {
+        if (input_code->instructions[i]->is_useless) continue;
+        print_instruction(input_code->instructions[i]);
+    }
+}
+
 void faxinar(void) {
     make_faxineiros();
-    write_output();
+    write_useful();
 }
 
 int main(int argc, char **argv) {
@@ -80,6 +102,7 @@ int main(int argc, char **argv) {
     input = fopen(argv[1], "r");
     if (input == 0) exit(EXIT_FAILURE);
     output = fopen(argv[2], "w");
+    input_code = malloc(sizeof(Code));
     read_code();
     faxinar();
 }
