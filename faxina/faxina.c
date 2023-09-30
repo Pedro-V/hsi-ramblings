@@ -64,17 +64,19 @@ uint8_t is_syscall(uint8_t *bytes) {
     return bytes[0] == 0x0f && bytes[1] == 0x05;
 }
 
+// copies and substitutes syscalls
 void copy_code(Code *temp_code) {
     temp_code->num_instructions = input_code->num_instructions;
     temp_code->num_bytes = input_code->num_bytes;
     temp_code->instructions = malloc(sizeof(Instruction) * input_code->num_instructions);
     for (size_t i = 0; i < input_code->num_instructions; i++) {
-       if (is_syscall(input_code->instructions->bytes)) {
-            replace_syscall();
+       if (is_syscall(input_code->instructions[i].bytes)) {
+           temp_code->instructions[i].bytes h
        }
        else {
-           memcpy(&temp_code->instructions[i], &input_code->instructions[i],
-                   sizeof(input_code->instructions[i]));
+           memcpy(&temp_code->instructions[i],
+                  &input_code->instructions[i],
+                  sizeof(input_code->instructions[i]));
        }
     }
 }
