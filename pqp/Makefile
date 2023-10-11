@@ -12,7 +12,5 @@ run: $(PROJECT).bin
 golden: $(PROJECT).bin
 	./$(PROJECT).bin golden.input golden.output
 	cat golden.output
-n:
-
 clean:
 	rm -rf *.bin *.o
